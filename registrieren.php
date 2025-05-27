@@ -1,6 +1,6 @@
 <?php 
 session_start();
-$pdo = new PDO('mysql:host=localhost;dbname=test', 'root', '');
+$pdo = new PDO('mysql:host=localhost;dbname=Stadt-Land-Pro', 'User_Stadt-Land-Pro', '');
 ?>
 <!DOCTYPE html> 
 <html> 
