@@ -36,7 +36,7 @@ if(isset($_GET['register'])) {
     
     //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
     if(!$error) {
-        $user = $conn->queryPrep("SELECT * FROM users WHERE email = :email", array('email' => $email));
+        $user = $conn->queryPrep("SELECT * FROM Benutzer WHERE Email = :email", array('email' => $email));
         
         if($user !== false) {
             echo 'Diese E-Mail-Adresse ist bereits vergeben<br>';
