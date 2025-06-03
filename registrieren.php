@@ -1,6 +1,5 @@
 <?php 
 session_start();
-$pdo = new PDO('mysql:host=localhost;dbname=Stadt-Land-Pro', 'User_Stadt-Land-Pro', '');
 ?>
 <!DOCTYPE html> 
 <html> 
@@ -30,12 +29,14 @@ if(isset($_GET['register'])) {
         echo 'Die Passwörter müssen übereinstimmen<br>';
         $error = true;
     }
+
+    
+    $conn = new Connect(); 
+    $conn->connect();
     
     //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
-    if(!$error) { 
-        $statement = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-        $result = $statement->execute(array('email' => $email));
-        $user = $statement->fetch();
+    if(!$error) {
+        $user = $conn->queryPrep("SELECT * FROM users WHERE email = :email", array('email' => $email));
         
         if($user !== false) {
             echo 'Diese E-Mail-Adresse ist bereits vergeben<br>';
@@ -46,9 +47,8 @@ if(isset($_GET['register'])) {
     //Keine Fehler, wir können den Nutzer registrieren
     if(!$error) {    
         $passwort_hash = password_hash($passwort, PASSWORD_DEFAULT);
-        
-        $statement = $pdo->prepare("INSERT INTO users (email, passwort) VALUES (:email, :passwort)");
-        $result = $statement->execute(array('email' => $email, 'passwort' => $passwort_hash));
+
+        $result = $conn->queryPrep("INSERT INTO Benutzer (Email, Passwort) VALUES (:email, :passwort)", array('email' => $email, 'passwort' => $passwort_hash));
         
         if($result) {        
             echo 'Du wurdest erfolgreich registriert. <a href="login.php">Zum Login</a>';
@@ -57,6 +57,8 @@ if(isset($_GET['register'])) {
             echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';
         }
     } 
+    
+    $conn->disconnect();
 }
  
 if($showFormular) {
