@@ -26,7 +26,8 @@ class Connect {
     }
 
     public function disconnect() {
-        $this->conn->close(); 
+        //$this->conn->close(); 
+        $pdo = null;
     }
 
 } 
