@@ -18,7 +18,7 @@ class Connect {
         return $this->conn->query($stm);
     }
 
-    public function queryPrep($stm, $params)
+    public function queryPrep($stm)
     {
         $statement = $this->conn->prepare($stm);
         return $statement;
