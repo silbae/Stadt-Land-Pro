@@ -1,4 +1,33 @@
-<form action="suche.php" method="get">
-  <input type="text" name="suchbegriff" placeholder="Suchbegriff eingeben">
-  <button type="submit">Suchen</button>
-</form>
+<?php
+// Verbindung zur Datenbank herstellen (Beispielwerte anpassen)
+$servername = "localhost";
+$username = "dein_db_user";
+$password = "dein_db_passwort";
+$dbname = "dein_db_name";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['neues_wort'])) {
+    $neuesWort = trim($_POST['neues_wort']);
+    if ($neuesWort !== "") {
+        // Verbindung aufbauen
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Verbindung prüfen
+        if ($conn->connect_error) {
+            die("Verbindung fehlgeschlagen: " . $conn->connect_error);
+        }
+
+        // SQL-Statement vorbereiten
+        $stmt = $conn->prepare("INSERT INTO woerter (wort) VALUES (?)");
+        $stmt->bind_param("s", $neuesWort);
+
+        if ($stmt->execute()) {
+            echo "Wort erfolgreich hinzugefügt!";
+        } else {
+            echo "Fehler beim Hinzufügen: " . $conn->error;
+        }
+
+        $stmt->close();
+        $conn->close();
+    }
+}
+?>
