@@ -7,7 +7,7 @@ $db->connect();
 
 // Kategorien aus der Datenbank holen:
 $kategorien = [];
-$sql = "SELECT DISTINCT kategorie FROM woerter ORDER BY kategorie ASC";
+$sql = "SELECT DISTINCT kategorie FROM Eintrag ORDER BY kategorie ASC";
 $result = $db->query($sql);
 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
     $kategorien[] = $row['kategorie'];
@@ -19,16 +19,11 @@ $buchstabe = isset($_GET['buchstabe']) ? strtoupper($_GET['buchstabe']) : '';
 
 $treffer = [];
 if ($kategorie && $buchstabe) {
-    // SQL-Query für Suche (prepared statement)
     $search = $buchstabe . '%';
-    $stmt = $db->queryPrep("SELECT wort FROM woerter WHERE kategorie = ? AND wort LIKE ?", [$kategorie, $search]);
-    if ($stmt && is_array($stmt)) {
-        // Bei fetch() kommt nur eine Zeile, daher besser ein eigenes fetchAll() machen
-        // Wir bauen das hier um:
-        $query = $db->query("SELECT wort FROM woerter WHERE kategorie = '$kategorie' AND wort LIKE '$search'");
-        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-            $treffer[] = $row['wort'];
-        }
+    // Mehrere Ergebnisse holen, daher query statt queryPrep:
+    $query = $db->query("SELECT wort FROM Eintrag WHERE kategorie = '$kategorie' AND wort LIKE '$search'");
+    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+        $treffer[] = $row['wort'];
     }
 }
 ?>
