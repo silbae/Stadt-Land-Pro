@@ -37,7 +37,7 @@ if(isset($_GET['register'])) {
     
     //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
     if(!$error) {
-        $user = $conn->queryPrep("SELECT * FROM Benutzer WHERE Email = :email", array('email' => $email));
+        $user = $conn->select("SELECT * FROM Benutzer WHERE Email = :email", array('email' => $email));
         
         if($user !== false) {
             echo 'Diese E-Mail-Adresse ist bereits vergeben<br>';
@@ -49,7 +49,7 @@ if(isset($_GET['register'])) {
     if(!$error) {    
         $passwort_hash = password_hash($passwort, PASSWORD_DEFAULT);
 
-        $result = $conn->queryPrep("INSERT INTO Benutzer (Email, Passwort) VALUES (:email, :passwort)", array('email' => $email, 'passwort' => $passwort_hash));
+        $result = $conn->insert("INSERT INTO Benutzer (Email, Passwort) VALUES (:email, :passwort)", array('email' => $email, 'passwort' => $passwort_hash));
         
         if($result) {        
             echo 'Du wurdest erfolgreich registriert. <a href="login.php">Zum Login</a>';
