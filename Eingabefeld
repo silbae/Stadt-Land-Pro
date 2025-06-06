@@ -1,33 +1,44 @@
 <?php
-// Verbindung zur Datenbank herstellen (Beispielwerte anpassen)
-$servername = "localhost";
-$username = "dein_db_user";
-$password = "dein_db_passwort";
-$dbname = "dein_db_name";
+// Inkludiere die Datenbankverbindung
+include'Connect.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['neues_wort'])) {
-    $neuesWort = trim($_POST['neues_wort']);
-    if ($neuesWort !== "") {
-        // Verbindung aufbauen
-        $conn = new mysqli($servername, $username, $password, $dbname);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['word'])) {
+    // Eingabewort von POST-Formular erhalten
+    $word = $_POST['word'];
 
-        // Verbindung prüfen
-        if ($conn->connect_error) {
-            die("Verbindung fehlgeschlagen: " . $conn->connect_error);
-        }
+    // Sicherheit: Schütze vor SQL-Injektion
+    $word = $conn->real_escape_string($word);
 
-        // SQL-Statement vorbereiten
-        $stmt = $conn->prepare("INSERT INTO woerter (wort) VALUES (?)");
-        $stmt->bind_param("s", $neuesWort);
+    // SQL-Abfrage zum Einfügen des Worts in die Datenbank
+    $sql = "INSERT INTO Begriff (word) VALUES ('$word')";
 
-        if ($stmt->execute()) {
-            echo "Wort erfolgreich hinzugefügt!";
-        } else {
-            echo "Fehler beim Hinzufügen: " . $conn->error;
-        }
-
-        $stmt->close();
-        $conn->close();
+    if ($conn->query($sql) === TRUE) {
+        echo "Wort erfolgreich gespeichert!";
+    } else {
+        echo "Fehler: " . $sql . "<br>" . $conn->error;
     }
 }
+
+// Schließe die Verbindung nach der Verarbeitung
+$conn->close();
 ?>
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wörter speichern</title>
+</head>
+<body>
+
+<h1>Wort hinzufügen</h1>
+
+<form method="post" action="index.php">
+    <label for="word">Wort eingeben:</label>
+    <input type="text" id="Wort hinzufügen" name="Wort hinzufügen" required>
+    <button type="submit">Absenden</button>
+</form>
+
+</body>
+</html>
