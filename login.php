@@ -14,8 +14,8 @@ if(isset($_POST['login'])) {
         array('email' => $email)
     );
 
-    // Überprüfung des Passworts – Spaltenname "Benutzer"!
-    if ($user !== false && password_verify($passwort, $user['Passwort'])) {
+    // Prüfe zuerst, ob ein Ergebnis gefunden wurde
+    if ($user && isset($user['Passwort']) && password_verify($passwort, $user['Passwort'])) {
         $_SESSION['benutzer'] = $user['Benutzer'];
         die('Login erfolgreich. Weiter zu <a href="geheim.php">internen Bereich</a>');
     } else {
@@ -42,7 +42,7 @@ E-Mail:<br>
 <input type="email" size="40" maxlength="250" name="email"><br><br>
 
 Dein Passwort:<br>
-<input type="password" size="40"  maxlength="250" name="passwort"><br>
+<input type="password" size="40" maxlength="250" name="passwort"><br>
 
 <input type="submit" value="Abschicken">
 </form> 
