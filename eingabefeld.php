@@ -5,17 +5,16 @@ include 'Connect.php';
 $db = new Connect();
 $db->connect();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['word'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['word']) && isset($_POST['kategorie'])) {
     $word = $_POST['word'];
+    $kategorie = $_POST['kategorie'];
 
-    // Sicherheit: Schütze vor SQL-Injektion mit Prepared Statements
-    $stm = "INSERT INTO Begriff (word) VALUES (:word)";
-    $db->queryPrep($stm, [':word' => $word]);
+    // Sicherheit: Prepared Statement verwenden
+    $stm = "INSERT INTO Begriff (word, kategorie) VALUES (:word, :kategorie)";
+    $db->queryPrep($stm, [':word' => $word, ':kategorie' => $kategorie]);
 
     echo "Wort erfolgreich gespeichert!";
 }
-
-// Verbindung muss nicht explizit geschlossen werden, PDO macht das automatisch beim Script-Ende
 ?>
 
 <!DOCTYPE html>
@@ -29,11 +28,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['word'])) {
 
 <h1>Wort hinzufügen</h1>
 
-<form method="post" action="index.php">
+<form method="post" action="">
     <label for="word">Wort eingeben:</label>
-    <input type="text" id="Wort hinzufügen" name="Wort hinzufügen" required>
+    <input type="text" id="word" name="word" required>
+    <br><br>
+    <label for="kategorie">Kategorie wählen:</label>
+    <select id="kategorie" name="kategorie" required>
+        <option value="">Bitte wählen</option>
+        <option value="Stadt">Stadt</option>
+        <option value="Tier">Tier</option>
+        <option value="Land">Land</option>
+        <!-- Weitere Kategorien können hier ergänzt werden -->
+    </select>
+    <br><br>
     <button type="submit">Absenden</button>
 </form>
+
+</body>
+</html>
 
 </body>
 </html>
