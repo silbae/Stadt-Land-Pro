@@ -15,7 +15,7 @@ if(isset($_POST['login'])) {
     );
 
     // Prüfe, ob ein Nutzer gefunden wurde und das Passwort stimmt
-    if ($user && isset($user['Password']) && password_verify($passwort, $user['Password'])) {
+    if ($user && isset($user['Passwort']) && password_verify($passwort, $user['Passwort'])) {
         $_SESSION['email'] = $user['Email'];
         die('Login erfolgreich. Weiter zu <a href="geheim.php">internen Bereich</a>');
     } else {
