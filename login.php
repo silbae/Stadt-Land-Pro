@@ -1,14 +1,14 @@
 <?php 
 require_once("Connect.php");
 session_start();
-$pdo = new Connect(); 
-$pdo->connect();
+$conn = new Connect(); 
+$conn->connect();
  
 if(isset($_GET['login'])) {
     $email = $_POST['email'];
     $passwort = $_POST['passwort'];
     
-    $statement = $pdo->prepare("SELECT * FROM Benutzer WHERE Email = :email");
+    $statement = $user = $conn->queryPrep("SELECT * FROM Benutzer WHERE Email = :email");
     $result = $statement->execute(array('email' => $email));
     $user = $statement->fetch();
         
