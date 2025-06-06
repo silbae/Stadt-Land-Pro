@@ -8,15 +8,15 @@ if(isset($_POST['login'])) {
     $email = $_POST['email'];
     $passwort = $_POST['passwort'];
 
-    // Holt den Benutzer als Array anhand der E-Mail-Adresse
+    // Holt den Benutzer anhand der E-Mail-Adresse
     $user = $conn->queryPrep(
         "SELECT * FROM Benutzer WHERE Email = :email",
         array('email' => $email)
     );
 
-    // Prüfe zuerst, ob ein Ergebnis gefunden wurde
-    if ($user && isset($user['Passwort']) && password_verify($passwort, $user['Passwort'])) {
-        $_SESSION['benutzer'] = $user['Benutzer'];
+    // Prüfe, ob ein Nutzer gefunden wurde und das Passwort stimmt
+    if ($user && isset($user['Password']) && password_verify($passwort, $user['Password'])) {
+        $_SESSION['email'] = $user['Email'];
         die('Login erfolgreich. Weiter zu <a href="geheim.php">internen Bereich</a>');
     } else {
         $errorMessage = "E-Mail oder Passwort war ungültig<br>";
