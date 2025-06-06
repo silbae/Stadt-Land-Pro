@@ -1,11 +1,15 @@
 <?php
-include 'Connect.php';
+require_once 'Connect.php';
+
+// Datenbankverbindung herstellen
+$db = new Connect();
+$db->connect();
 
 // Kategorien aus der Datenbank holen:
 $kategorien = [];
 $sql = "SELECT DISTINCT kategorie FROM woerter ORDER BY kategorie ASC";
-$result = $conn->query($sql);
-while ($row = $result->fetch_assoc()) {
+$result = $db->query($sql);
+while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
     $kategorien[] = $row['kategorie'];
 }
 
@@ -15,16 +19,17 @@ $buchstabe = isset($_GET['buchstabe']) ? strtoupper($_GET['buchstabe']) : '';
 
 $treffer = [];
 if ($kategorie && $buchstabe) {
-    // SQL-Query für Suche
-    $stmt = $conn->prepare("SELECT wort FROM woerter WHERE kategorie = ? AND wort LIKE ?");
+    // SQL-Query für Suche (prepared statement)
     $search = $buchstabe . '%';
-    $stmt->bind_param('ss', $kategorie, $search);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    while ($row = $result->fetch_assoc()) {
-        $treffer[] = $row['wort'];
+    $stmt = $db->queryPrep("SELECT wort FROM woerter WHERE kategorie = ? AND wort LIKE ?", [$kategorie, $search]);
+    if ($stmt && is_array($stmt)) {
+        // Bei fetch() kommt nur eine Zeile, daher besser ein eigenes fetchAll() machen
+        // Wir bauen das hier um:
+        $query = $db->query("SELECT wort FROM woerter WHERE kategorie = '$kategorie' AND wort LIKE '$search'");
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $treffer[] = $row['wort'];
+        }
     }
-    $stmt->close();
 }
 ?>
 <!DOCTYPE html>
