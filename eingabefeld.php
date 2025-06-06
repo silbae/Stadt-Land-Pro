@@ -1,6 +1,6 @@
 <?php
 // Inkludiere die Datenbankverbindung
-include'Connect.php';
+include ('Connect.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['word'])) {
     // Eingabewort von POST-Formular erhalten
