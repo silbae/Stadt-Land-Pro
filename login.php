@@ -22,6 +22,7 @@ if(isset($_POST['login'])) {
     } else {
         $errorMessage = "E-Mail oder Passwort war ungültig<br>";
     }
+    $conn->disconnect();
 }
 ?>
 <!DOCTYPE html> 
