@@ -172,7 +172,7 @@ if ($kategorie && $buchstabe) {
     </style>
 </head>
 <body>
-    <div class="fancy-header">Stadt-Land-Pro</div>
+    <div class="fancy-header">Stadt-Land-Pro - Get on the Next Level</div>
     <div class="suchleisten-wrapper">
         <div class="such-container">
             <form method="get">
