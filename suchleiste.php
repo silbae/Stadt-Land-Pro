@@ -172,7 +172,7 @@ if ($kategorie && $buchstabe) {
     </style>
 </head>
 <body>
-    <div class="fancy-header">🌈 Stadt-Land-Pro – Die bunte Suchmaschine 🌟</div>
+    <div class="fancy-header">Stadt-Land-Pro</div>
     <div class="suchleisten-wrapper">
         <div class="such-container">
             <form method="get">
