@@ -30,19 +30,42 @@ if ($kategorie && $buchstabe) {
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Suchleiste</title>
+    <title>Stadt-Land-Pro Suchleiste</title>
     <style>
         body {
             min-height: 100vh;
             margin: 0;
             background: #f8f8f8;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .fancy-header {
+            margin-top: 32px;
+            margin-bottom: 15px;
+            font-size: 2.7em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-align: center;
+            background: linear-gradient(90deg, #ff6b6b, #f8e71c, #63e6be, #4286f4, #b96bff, #ff6b6b);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 7s ease-in-out infinite;
+            user-select: none;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         .suchleisten-wrapper {
             width: 100%;
             display: flex;
             justify-content: center;
-            margin-top: 60px; /* Suchleiste nach oben versetzt */
+            margin-top: 25px;
             position: relative;
         }
         .such-container {
@@ -71,20 +94,22 @@ if ($kategorie && $buchstabe) {
             font-size: 1.08em;
             padding: 7px 24px;
             border-radius: 6px;
-            background: #4286f4;
+            background: linear-gradient(90deg, #63e6be 40%, #4286f4 100%);
             color: white;
             border: none;
             cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .such-container button:hover {
+            background: linear-gradient(90deg, #4286f4 0%, #b96bff 100%);
         }
         .ergebnisse-wrapper {
             width: 100%;
             display: flex;
             justify-content: center;
-            position: absolute;
-            left: 0;
-            top: 45vh; /* Ergebnisse zentral weiter unten im Bild */
-            transform: translateY(-50%);
-            z-index: 2;
+            margin-top: 70px;
+            margin-bottom: 120px;
         }
         .ergebnisse {
             background: #fff;
@@ -109,6 +134,29 @@ if ($kategorie && $buchstabe) {
             font-style: italic;
             margin-top: 15px;
         }
+        .bodenleiste {
+            width: 100vw;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, #fffbe7 0%, #fbe7ff 100%);
+            padding: 12px 0;
+            box-shadow: 0 -2px 16px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            z-index: 99;
+        }
+        .bodenleiste img {
+            height: 54px;
+            border-radius: 9px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+            object-fit: cover;
+            transition: transform 0.2s;
+        }
+        .bodenleiste img:hover {
+            transform: scale(1.08) rotate(-2deg);
+        }
         @media (max-width: 600px) {
             .such-container, .ergebnisse {
                 min-width: unset;
@@ -117,10 +165,14 @@ if ($kategorie && $buchstabe) {
             .ergebnisse-wrapper, .suchleisten-wrapper {
                 min-width: 100vw;
             }
+            .bodenleiste img {
+                height: 36px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="fancy-header">🌈 Stadt-Land-Pro – Die bunte Suchmaschine 🌟</div>
     <div class="suchleisten-wrapper">
         <div class="such-container">
             <form method="get">
@@ -158,6 +210,12 @@ if ($kategorie && $buchstabe) {
                 <div class="hinweis">Bitte Kategorie und Anfangsbuchstaben auswählen.</div>
             <?php endif; ?>
         </div>
+    </div>
+    <div class="bodenleiste">
+        <!-- Ersetze die Bild-URLs durch deine eigenen Werbebanner -->
+        <a href="https://www.example.com/werbung1" target="_blank"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=400&h=400" alt="Werbung 1"></a>
+        <a href="https://www.example.com/werbung2" target="_blank"><img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=facearea&w=400&h=400" alt="Werbung 2"></a>
+        <a href="https://www.example.com/werbung3" target="_blank"><img src="https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=400&h=400" alt="Werbung 3"></a>
     </div>
 </body>
 </html>
