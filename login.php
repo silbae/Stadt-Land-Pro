@@ -8,12 +8,11 @@ if(isset($_POST['login'])) {
     $email = $_POST['email'];
     $passwort = $_POST['passwort'];
 
-    // SQL-Statement mit korrekten Spaltennamen und Parametern
-    $statement = $conn->queryPrep(
+    // Annahme: queryPrep gibt direkt die Userdaten als Array zurück
+    $user = $conn->queryPrep(
         "SELECT * FROM Benutzer WHERE Email = :email",
         array('email' => $email)
     );
-    $user = $statement->fetch();
 
     // Überprüfung des Passworts – Spaltenname "Passwort"!
     if ($user !== false && password_verify($passwort, $user['Passwort'])) {
