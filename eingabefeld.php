@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['word']) && isset($_POS
     $kategorie = $_POST['kategorie'];
 
     // Sicherheit: Prepared Statement verwenden
-    $stm = "INSERT INTO Begriff (word, kategorie) VALUES (:word, :kategorie)";
+    $stm = "INSERT INTO Eintrag (word, kategorie) VALUES (:word, :kategorie)";
     $db->queryPrep($stm, [':word' => $word, ':kategorie' => $kategorie]);
 
     echo "Wort erfolgreich gespeichert!";
