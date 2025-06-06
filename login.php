@@ -1,8 +1,8 @@
 <?php 
 require_once("Connect.php");
 session_start();
-$conn = new Connect(); 
-$conn->connect();
+$pdo = new Connect(); 
+$pdo->connect();
  
 if(isset($_GET['login'])) {
     $email = $_POST['email'];
