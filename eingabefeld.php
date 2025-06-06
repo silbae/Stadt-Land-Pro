@@ -5,13 +5,13 @@ include 'Connect.php';
 $db = new Connect();
 $db->connect();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['word']) && isset($_POST['kategorie'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['word']) && isset($_POST['Kategorie'])) {
     $word = $_POST['word'];
-    $kategorie = $_POST['kategorie'];
+    $kategorie = $_POST['Kategorie'];
 
     // Sicherheit: Prepared Statement verwenden
-    $stm = "INSERT INTO Eintrag (word, kategorie) VALUES (:word, :kategorie)";
-    $db->queryPrep($stm, [':word' => $word, ':kategorie' => $kategorie]);
+    $stm = "INSERT INTO Eintrag (word, Kategorie) VALUES (:word, :Kategorie)";
+    $db->queryPrep($stm, [':word' => $word, ':Kategorie' => $Kategorie]);
 
     echo "Wort erfolgreich gespeichert!";
 }
@@ -32,8 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['word']) && isset($_POS
     <label for="word">Wort eingeben:</label>
     <input type="text" id="word" name="word" required>
     <br><br>
-    <label for="kategorie">Kategorie wählen:</label>
-    <select id="kategorie" name="kategorie" required>
+    <label for="Kategorie">Kategorie wählen:</label>
+    <select id="Kategorie" name="Kategorie" required>
         <option value="">Bitte wählen</option>
         <option value="Stadt">Stadt</option>
         <option value="Tier">Tier</option>
