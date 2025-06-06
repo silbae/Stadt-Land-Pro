@@ -4,13 +4,15 @@ session_start();
 $conn = new Connect(); 
 $conn->connect();
 
-if(isset($_GET['login'])) {
+if(isset($_POST['login'])) {
     $email = $_POST['email'];
     $passwort = $_POST['passwort'];
 
-    // SQL-Statement mit korrekten Spaltennamen
-    $statement = $conn->queryPrep("SELECT * FROM Benutzer WHERE Email = :email");
-    $result = $statement->execute(array('email' => $email));
+    // SQL-Statement mit korrekten Spaltennamen und Parametern
+    $statement = $conn->queryPrep(
+        "SELECT * FROM Benutzer WHERE Email = :email",
+        array('email' => $email)
+    );
     $user = $statement->fetch();
 
     // Überprüfung des Passworts – Spaltenname "Passwort"!
@@ -35,7 +37,8 @@ if(isset($errorMessage)) {
 }
 ?>
 
-<form action="?login=1" method="post">
+<form action="" method="post">
+<input type="hidden" name="login" value="1">
 E-Mail:<br>
 <input type="email" size="40" maxlength="250" name="email"><br><br>
 
