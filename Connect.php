@@ -21,8 +21,20 @@ class Connect {
     public function queryPrep($stm, $params)
     {
         $statement = $this->conn->prepare($stm);
-        $statement->execute($params);
-        return $statement->fetch();
+        return $statement;
+    }
+
+    public function insert($stm, $params)
+    {
+        $stmt = $this->queryPrep($stm);
+        return $stmt->execute($params);
+    }
+
+    public function select($stm, $params)
+    {
+        $stmt = $this->queryPrep($stm);
+        $stmt->execute($params);
+        return $stmt->fetch();
     }
 
     public function disconnect() {
