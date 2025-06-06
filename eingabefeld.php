@@ -1,26 +1,21 @@
 <?php
-// Inkludiere die Datenbankverbindung
 include 'Connect.php';
 
+// Erstelle ein Connect-Objekt und stelle Verbindung her
+$db = new Connect();
+$db->connect();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['word'])) {
-    // Eingabewort von POST-Formular erhalten
     $word = $_POST['word'];
 
-    // Sicherheit: Schütze vor SQL-Injektion
-    $word = $conn->real_escape_string($word);
+    // Sicherheit: Schütze vor SQL-Injektion mit Prepared Statements
+    $stm = "INSERT INTO Begriff (word) VALUES (:word)";
+    $db->queryPrep($stm, [':word' => $word]);
 
-    // SQL-Abfrage zum Einfügen des Worts in die Datenbank
-    $sql = "INSERT INTO Begriff (word) VALUES ('$word')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Wort erfolgreich gespeichert!";
-    } else {
-        echo "Fehler: " . $sql . "<br>" . $conn->error;
-    }
+    echo "Wort erfolgreich gespeichert!";
 }
 
-// Schließe die Verbindung nach der Verarbeitung
-$conn->close();
+// Verbindung muss nicht explizit geschlossen werden, PDO macht das automatisch beim Script-Ende
 ?>
 
 <!DOCTYPE html>
