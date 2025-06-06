@@ -1,5 +1,5 @@
 <?php
-include 'connect.php';
+include 'Connect.php';
 
 // Kategorien aus der Datenbank holen:
 $kategorien = [];
