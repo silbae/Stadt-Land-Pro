@@ -9,7 +9,7 @@ if(isset($_POST['login'])) {
     $passwort = $_POST['passwort'];
 
     // Holt den Benutzer anhand der E-Mail-Adresse
-    $user = $conn->queryPrep(
+    $user = $conn->select( //Änderung
         "SELECT * FROM Benutzer WHERE Email = :email",
         array('email' => $email)
     );
