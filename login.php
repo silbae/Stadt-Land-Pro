@@ -8,13 +8,13 @@ if(isset($_POST['login'])) {
     $email = $_POST['email'];
     $passwort = $_POST['passwort'];
 
-    // Annahme: queryPrep gibt direkt die Userdaten als Array zurück
+    // Holt den Benutzer als Array anhand der E-Mail-Adresse
     $user = $conn->queryPrep(
         "SELECT * FROM Benutzer WHERE Email = :email",
         array('email' => $email)
     );
 
-    // Überprüfung des Passworts – Spaltenname "Passwort"!
+    // Überprüfung des Passworts – Spaltenname "Benutzer"!
     if ($user !== false && password_verify($passwort, $user['Passwort'])) {
         $_SESSION['benutzer'] = $user['Benutzer'];
         die('Login erfolgreich. Weiter zu <a href="geheim.php">internen Bereich</a>');
