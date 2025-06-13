@@ -6,9 +6,20 @@ $db = new Connect();
 $db->connect();
 
 $kategorien = [];
-$stm = $db->query("SELECT * FROM Kategorie);
+$stm = $db->query("SELECT * FROM Kategorie");
 while ($kategorie = $stm->fetch_assoc()){
-    kategorien[] = $kategorie;
+    $kategorien[] = $kategorie;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_POST['Kategorie'])) {
+    $word = $_POST['word'];
+    $kategorie = $_POST['Kategorie'];
+
+    // Sicherheit: Prepared Statement verwenden
+    $stm = "INSERT INTO Eintrag (word, Kategorie) VALUES (:word, :Kategorie)";
+    $db->queryPrep($stm, [':word' => $word, ':Kategorie' => $kategorie]);
+
+    echo "Wort erfolgreich gespeichert!";
 }
 
 print_r($kategorien);
