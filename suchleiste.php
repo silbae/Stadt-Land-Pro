@@ -398,6 +398,27 @@ if ($kategorie && $buchstabe) {
     justify-content: center;
     word-break: break-word;
 }
+.ergebnis-zeile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+.herz-btn {
+    background: none;
+    border: none;
+    font-size: 1.4em;
+    color: #bbb;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    padding: 0 6px;
+}
+.herz-btn:hover, .herz-btn.active {
+    color: #ff6b6b;
+    transform: scale(1.2);
+}       
 </style>
 </head>
 <body>
@@ -437,11 +458,12 @@ if ($kategorie && $buchstabe) {
         <?php if ($kategorie && $buchstabe): ?>
             <?php if (count($treffer) > 0): ?>
                 <strong>Gefundene Wörter:</strong><br>
-                <?php foreach ($treffer as $wort): ?>
-                    <div class="ergebnis-zeile">
-                        <?php echo htmlspecialchars($wort); ?>
-                    </div>
-                <?php endforeach; ?>
+               <?php foreach ($treffer as $wort): ?>
+    <div class="ergebnis-zeile">
+        <?php echo htmlspecialchars($wort); ?>
+        <button class="herz-btn" type="button" title="Favorit">&#10084;</button>
+    </div>
+<?php endforeach; ?>
             <?php else: ?>
                 <div class="hinweis">Keine Treffer gefunden.</div>
             <?php endif; ?>
@@ -461,5 +483,12 @@ if ($kategorie && $buchstabe) {
     <a href="https://www.spotlinks.de/werbung_right1" target="_blank"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=facearea&w=400&h=400" alt="Werbung R1"></a>
     <a href="https://www.spotlinks.de/werbung_right2" target="_blank"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=facearea&w=400&h=400" alt="Werbung R2"></a>
 </div>
+<script>
+document.querySelectorAll('.herz-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        this.classList.toggle('active');
+    });
+});
+</script>
 </body>
 </html>
