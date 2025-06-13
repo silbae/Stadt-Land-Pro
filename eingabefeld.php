@@ -26,41 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_PO
 ?>
 
 
-<?php
-<?php
-require_once 'Connect.php';
- 
-// Erstelle ein Connect-Objekt und stelle Verbindung her
-$db = new Connect();
-$db->connect();
- 
-$kategorien = [];
-$stm = $db->query("SELECT * FROM Kategorie");
-while ($kategorie = $stm->fetch(PDO::FETCH_ASSOC)){
-    $kategorien[] = $kategorie;
-}
- 
-$meldung = "";
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_POST['Kategorie'])) {
-    $word = $_POST['word'];
-    $kategorie = $_POST['Kategorie'];
- 
-    // Sicherheit: Prepared Statement verwenden
-    $stm = "INSERT INTO Eintrag (Wort, Kategorie) VALUES (:word, :Kategorie)";
-    if ($db->insert($stm, [':word' => $word, ':Kategorie' => $kategorie])) {
-        $meldung = '<div class="success-message">Wort erfolgreich gespeichert!</div>';
-    } else {
-        $meldung = '<div class="error-message">Fehler beim Speichern!</div>';
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wort hinzufügen</title>
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wort hinzufügen</title>
+    <style>
         body {
             margin: 0;
             padding: 0;
@@ -125,29 +97,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_PO
         a.link:hover {
             text-decoration: underline;
         }
-</style>
+    </style>
 </head>
 <body>
 <div class="center-wrapper">
-<div class="eingabe-box">
-<h2>Wort hinzufügen</h2>
-<?php echo $meldung; ?>
-<form method="post" action="">
-<input class="eingabe-input" type="text" id="word" name="word" placeholder="Wort eingeben" required>
-<br>
-<select class="eingabe-select" id="Kategorie" name="Kategorie" required>
-<option value="">Kategorie wählen</option>
-<?php foreach ($kategorien as $kategorie): ?>
-<option value="<?= htmlspecialchars($kategorie['Name']) ?>"><?= htmlspecialchars($kategorie['Name']) ?></option>
-<?php endforeach; ?>
-</select>
-<br>
-<button class="eingabe-button" type="submit">Absenden</button>
-</form>
-<div style="margin-top:16px;">
-<a class="link" href="suchleiste.php">Zurück zur Suche</a>
-</div>
-</div>
+    <div class="eingabe-box">
+        <h2>Wort hinzufügen</h2>
+        
+        <form method="post" action="">
+            <input class="eingabe-input" type="text" id="word" name="word" placeholder="Wort eingeben" required>
+            <br>
+            <select class="eingabe-select" id="Kategorie" name="Kategorie" required>
+                <option value="">Kategorie wählen</option>
+                <?php foreach ($kategorien as $kategorie): ?>
+                    <option value="<?= htmlspecialchars($kategorie['Name']) ?>"><?= htmlspecialchars($kategorie['Name']) ?></option>
+                <?php endforeach; ?>
+            </select>
+            <br>
+            <button class="eingabe-button" type="submit">Absenden</button>
+        </form>
+        <div style="margin-top:16px;">
+            <a class="link" href="suchleiste.php">Zurück zur Suche</a>
+        </div>
+    </div>
 </div>
 </body>
 </html>
