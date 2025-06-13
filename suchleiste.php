@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'Connect.php';
 
 // Verbindung aufbauen
@@ -169,9 +170,31 @@ if ($kategorie && $buchstabe) {
                 height: 36px;
             }
         }
+        .logout-rechts {
+    position: fixed;
+    top: 22px;
+    right: 32px;
+    z-index: 1000;
+} //logout
+.logout-rechts a {
+    background: #4286f4;
+    color: #fff;
+    padding: 8px 22px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+.logout-rechts a:hover {
+    background: #ff6b6b;
+} 
     </style>
 </head>
 <body>
+    <body> //logout
+    <div class="logout-rechts">
+        <a href="logout.php">Logout</a>
+    </div>
     <div class="fancy-header">Stadt-Land-Pro - Get on the Next Level</div>
     <div class="suchleisten-wrapper">
         <div class="such-container">
