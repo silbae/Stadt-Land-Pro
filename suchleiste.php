@@ -123,16 +123,16 @@ if ($kategorie && $buchstabe) {
     box-shadow: 0 4px 32px rgba(0,0,0,0.09);
     text-align: center;
 }
-        .ergebnis-zeile {
-            font-size: 1.18em;
-            color: #1a1a1a;
-            margin: 8px 0 8px 0;
-            border-bottom: 1px solid #ececec;
-            padding-bottom: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+     .ergebnis-zeile {
+    font-size: 1.18em;
+    color: #1a1a1a;
+    margin: 8px 0 8px 0;
+    border-bottom: 1px solid #ececec;
+    padding-bottom: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
         .ergebnisse strong {
             font-size: 1.18em;
         }
