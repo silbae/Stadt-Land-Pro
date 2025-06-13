@@ -30,24 +30,76 @@ if(isset($_POST['login'])) {
 <html> 
 <head>
   <title>Login</title>    
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f4f6f8;
+    }
+    .center-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: #f8f9fa;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px #e0e0e0;
+      text-align: center;
+      min-width: 320px;
+    }
+    .login-box h2 {
+      margin-bottom: 20px;
+    }
+    .login-input {
+      width: 90%;
+      padding: 8px;
+      margin: 8px 0 16px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+    .login-button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.2s;
+    }
+    .login-button:hover {
+      background: #0056b3;
+    }
+    .error-message {
+      color: #d8000c;
+      margin-bottom: 10px;
+    }
+  </style>
 </head> 
 <body>
-
-<?php 
-if(isset($errorMessage)) {
-    echo $errorMessage;
-}
-?>
-
-<form action="" method="post">
-<input type="hidden" name="login" value="1">
-E-Mail:<br>
-<input type="email" size="40" maxlength="250" name="email"><br><br>
-
-Dein Passwort:<br>
-<input type="password" size="40" maxlength="250" name="passwort"><br>
-
-<input type="submit" value="Abschicken">
-</form> 
+<div class="center-wrapper">
+  <div class="login-box">
+    <h2>Login</h2>
+    <?php 
+    if(isset($errorMessage)) {
+        echo '<div class="error-message">'.$errorMessage.'</div>';
+    }
+    ?>
+    <form action="" method="post">
+      <input type="hidden" name="login" value="1">
+      <input class="login-input" type="email" maxlength="250" name="email" placeholder="E-Mail" required><br>
+      <input class="login-input" type="password" maxlength="250" name="passwort" placeholder="Passwort" required><br>
+      <input class="login-button" type="submit" value="Abschicken">
+    </form>
+    <div style="margin-top:16px;">
+      <a href="registrieren.php" style="color:#28a745;text-decoration:none;">Noch kein Account? Jetzt registrieren</a>
+    </div>
+  </div>
+</div>
 </body>
 </html>
