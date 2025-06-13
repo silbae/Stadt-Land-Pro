@@ -374,6 +374,27 @@ if ($kategorie && $buchstabe) {
         font-size: 1em;
     }
 }
+.ergebnisse {
+    min-width: 600px !important;
+    max-width: 800px;
+    padding: 40px 60px !important;
+    border-radius: 18px;
+    font-size: 1.25em;
+}
+
+.ergebnis-zeile {
+    font-size: 1.2em;
+    color: #1a1a1a;
+    margin: 18px 0 18px 0;
+    border-bottom: 2px solid #ececec;
+    padding: 22px 0;
+    min-width: 550px;
+    background: #f8f8f8;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}        
 </style>
 </head>
 <body>
