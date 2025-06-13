@@ -245,19 +245,29 @@ if ($kategorie && $buchstabe) {
 }
 .suchleisten-wrapper {
     width: 100%;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 25px;
-    position: relative;
-    gap: 0;
+}
+
+.such-container {
+    background: #fff;
+    padding: 28px 36px;
+    border-radius: 16px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.09);
+    text-align: center;
+    min-width: 340px;
+    z-index: 1;
 }
 
 .eingabe-btn {
-    margin-left: 18px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
     height: 56px;
-    display: flex;
-    align-items: center;
     background: linear-gradient(90deg, #ff6b6b 0%, #4286f4 100%);
     color: white;
     padding: 0 26px;
@@ -270,6 +280,9 @@ if ($kategorie && $buchstabe) {
     cursor: pointer;
     transition: background 0.25s;
     min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 2;
 }
 .eingabe-btn:hover {
@@ -281,11 +294,11 @@ if ($kategorie && $buchstabe) {
         align-items: center;
     }
     .eingabe-btn {
-        margin-left: 0;
+        position: static;
         margin-top: 18px;
         width: 95vw;
         height: 48px;
-        justify-content: center;
+        transform: none;
     }
     .such-container {
         width: 95vw;
@@ -324,7 +337,7 @@ if ($kategorie && $buchstabe) {
             <button type="submit">Suchen</button>
         </form>
             </div>
-        <a href="eingabefeld.php" class="eingabe-btn">Zur Eingabe</a>
+    <a href="eingabefeld.php" class="eingabe-btn">Zur Eingabe</a>
 </div>
 <div class="ergebnisse-wrapper">
     <div class="ergebnisse">
