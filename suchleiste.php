@@ -138,31 +138,35 @@ if ($kategorie && $buchstabe) {
             font-style: italic;
             margin-top: 15px;
         }
-        .bodenleiste {
-            width: 100vw;
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, #fffbe7 0%, #fbe7ff 100%);
-            padding: 12px 0;
-            box-shadow: 0 -2px 16px rgba(0,0,0,0.08);
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            z-index: 99;
-        }
-        .bodenleiste img {
-            height: 54px;
-            border-radius: 9px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.10);
-            object-fit: cover;
-            transition: transform 0.2s;
-        }
-        .bodenleiste img:hover {
-            transform: scale(1.08) rotate(-2deg);
-        }
+       .bodenleiste {
+    width: 100vw;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, #fffbe7 0%, #fbe7ff 100%);
+    padding: 12px 0;
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px; /* enger, damit mehr Spots passen */
+    z-index: 99;
+    flex-wrap: wrap;
+}
 
-        .anzeigenfeld {
+.bodenleiste img {
+    height: 54px;
+    border-radius: 9px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+    object-fit: cover;
+    transition: transform 0.2s;
+}
+
+.bodenleiste img:hover {
+    transform: scale(1.08) rotate(-2deg);
+}
+
+.anzeigenfeld {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -176,12 +180,19 @@ if ($kategorie && $buchstabe) {
     font-weight: bold;
     padding: 0 18px;
 }
+
+/* Mobilanpassung */
 @media (max-width: 600px) {
+    .bodenleiste {
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+    .bodenleiste img,
     .anzeigenfeld {
         height: 36px;
         font-size: 1em;
         min-width: 120px;
-        padding: 0 8px;
+        padding: 0 6px;
     }
 }
         @media (max-width: 600px) {
@@ -416,10 +427,15 @@ if ($kategorie && $buchstabe) {
     </div>
 </div>
 <div class="bodenleiste">
+    <a href="https://www.spotlinks.de/werbung_left1" target="_blank"><img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=facearea&w=400&h=400" alt="Werbung L1"></a>
+    <a href="https://www.spotlinks.de/werbung_left2" target="_blank"><img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=facearea&w=400&h=400" alt="Werbung L2"></a>
+    <div class="anzeigenfeld">Hier könnte Ihre Werbung stehen</div>
     <a href="https://www.example.com/werbung1" target="_blank"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=400&h=400" alt="Werbung 1"></a>
     <a href="https://www.example.com/werbung2" target="_blank"><img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=facearea&w=400&h=400" alt="Werbung 2"></a>
     <a href="https://www.example.com/werbung3" target="_blank"><img src="https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=400&h=400" alt="Werbung 3"></a>
-<div class="anzeigenfeld">Hier könnte Ihre Werbung stehen</div>
+    <div class="anzeigenfeld">Hier könnte Ihre Werbung stehen</div>
+    <a href="https://www.spotlinks.de/werbung_right1" target="_blank"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=facearea&w=400&h=400" alt="Werbung R1"></a>
+    <a href="https://www.spotlinks.de/werbung_right2" target="_blank"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=facearea&w=400&h=400" alt="Werbung R2"></a>
 </div>
 </body>
 </html>
