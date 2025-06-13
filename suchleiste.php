@@ -31,8 +31,7 @@ $bewertetCounts = [];
 if (count($treffer) > 0) {
     $placeholders = implode(',', array_fill(0, count($treffer), '?'));
     $sql = "SELECT wort, bewertet FROM Bewertungen WHERE wort IN ($placeholders)";
-    $stmt = $db->pdo->prepare($sql);
-    $stmt->execute($treffer);
+    $stmt = $db->select($sql, $treffer);
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $bewertetCounts[$row['wort']] = $row['bewertet'];
     }
