@@ -1,10 +1,9 @@
 <?php
 require_once 'Connect.php';
+<?php
+require_once 'Connect.php';
 session_start();
 $user_email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
-// Beispiel: $_SESSION['email'] muss beim Login gesetzt werden!
-$user_email = isset($_SESSION['email']) ? $_SESSION['email'] : 'Gast';
-// Verbindung aufbauen
 
 $db = new Connect();
 $db->connect();
