@@ -305,6 +305,43 @@ if ($kategorie && $buchstabe) {
         min-width: unset;
     }
 }
+        .floating-eingabe-btn {
+    position: fixed;
+    left: 75vw; /* exakt zwischen Mitte (50vw) und rechtem Rand (100vw) */
+    bottom: 90px; /* Höhe über der bodenleiste anpassen falls nötig */
+    transform: translateX(-50%);
+    z-index: 999;
+    height: 56px;
+    background: linear-gradient(90deg, #ff6b6b 0%, #4286f4 100%);
+    color: white;
+    padding: 0 26px;
+    border-radius: 10px;
+    font-size: 1.11em;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    border: none;
+    cursor: pointer;
+    transition: background 0.25s;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.floating-eingabe-btn:hover {
+    background: linear-gradient(90deg, #63e6be 0%, #b96bff 100%);
+}
+@media (max-width: 700px) {
+    .floating-eingabe-btn {
+        left: 50vw;
+        bottom: 82px;
+        width: 90vw;
+        min-width: unset;
+        height: 48px;
+        font-size: 1em;
+        transform: translateX(-50%);
+    }
+}
     </style>
 </head>
 <body>
@@ -337,7 +374,7 @@ if ($kategorie && $buchstabe) {
             <button type="submit">Suchen</button>
         </form>
             </div>
-    <a href="eingabefeld.php" class="eingabe-btn">Zur Eingabe</a>
+<a href="eingabefeld.php" class="floating-eingabe-btn">Zur Eingabe</a>
 </div>
 <div class="ergebnisse-wrapper">
     <div class="ergebnisse">
