@@ -44,16 +44,9 @@ print_r($kategorien);
     <label for="Kategorie">Kategorie wählen:</label>
     <select id="Kategorie" name="Kategorie" required>
         <option value="">Bitte wählen</option>
-        <option value="Stadt">Stadt</option>
-        <option value="Tier">Tier</option>
-        <option value="Land">Land</option>
-        <option value="Fluss">Fluss</option>
-        <option value="Sportart">Sportart</option>
-        <option value="Promi">Promi</option>
-        <option value="Name">Name</option>
-        <option value="Lebensmittel">Lebensmittel</option>
-        <option value="Film">Film</option>
-        <option value="Beruf">Beruf</option>
+        <?php foreach ($kategorien as $kategorie): ?>
+            <option value="<?= htmlspecialchars($kategorie['Name']) ?>"><?= htmlspecialchars($kategorie['Name']) ?></option>
+        <?php endforeach; ?>
         <!-- Weitere Kategorien können hier ergänzt werden -->
     </select>
     <br><br>
