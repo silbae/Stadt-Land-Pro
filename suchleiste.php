@@ -1,7 +1,10 @@
 <?php
 require_once 'Connect.php';
-
+session_start();
+// Beispiel: $_SESSION['email'] muss beim Login gesetzt werden!
+$user_email = isset($_SESSION['email']) ? $_SESSION['email'] : 'Gast';
 // Verbindung aufbauen
+
 $db = new Connect();
 $db->connect();
 
@@ -222,9 +225,46 @@ if (count($treffer) > 0) {
 .logout-btn:hover {
     background: linear-gradient(90deg, #ff6b6b 10%, #b96bff 100%);
 }
+        .user-info {
+    position: absolute;
+    top: 22px;
+    left: 32px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(90deg, #4286f4 40%, #63e6be 100%);
+    color: white;
+    padding: 7px 18px 7px 10px;
+    border-radius: 7px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    font-weight: bold;
+    font-size: 1.08em;
+    gap: 12px;
+    z-index: 100;
+}
+.user-info .icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 6px;
+}
+.user-info .icon img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+}
     </style>
 </head>
 <body>
+    <div class="user-info">
+    <span class="icon">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Benutzericon">
+    </span>
+    <?php echo htmlspecialchars($user_email); ?>
+</div>
     <a href="logout.php" class="logout-btn">Logout</a>
     <div class="fancy-header">Stadt-Land-Pro - Get on the Next Level</div>
     <div class="suchleisten-wrapper">
