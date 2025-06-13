@@ -1,4 +1,4 @@
-<?php
+<?php //Silas
 session_start();
 session_destroy();
 ?>
