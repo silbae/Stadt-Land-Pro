@@ -17,12 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_PO
 
     // Sicherheit: Prepared Statement verwenden
     $stm = "INSERT INTO Eintrag (word, Kategorie) VALUES (:word, :Kategorie)";
-    $db->queryPrep($stm, [':word' => $word, ':Kategorie' => $kategorie]);
+    $db->insert($stm, [':word' => $word, ':Kategorie' => $kategorie]);
 
     echo "Wort erfolgreich gespeichert!";
 }
-
-print_r($kategorien);
 
 
 ?>
@@ -47,7 +45,6 @@ print_r($kategorien);
         <?php foreach ($kategorien as $kategorie): ?>
             <option value="<?= htmlspecialchars($kategorie['Name']) ?>"><?= htmlspecialchars($kategorie['Name']) ?></option>
         <?php endforeach; ?>
-        <!-- Weitere Kategorien können hier ergänzt werden -->
     </select>
     <br><br>
     <button type="submit">Absenden</button>
