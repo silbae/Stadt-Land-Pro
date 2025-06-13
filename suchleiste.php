@@ -305,11 +305,10 @@ if ($kategorie && $buchstabe) {
         min-width: unset;
     }
 }
-        .floating-eingabe-btn {
+     .floating-eingabe-btn {
     position: fixed;
-    left: 75vw; /* exakt zwischen Mitte (50vw) und rechtem Rand (100vw) */
-    bottom: 90px; /* Höhe über der bodenleiste anpassen falls nötig */
-    transform: translateX(-50%);
+    right: 32px;      /* Abstand zum rechten Rand */
+    bottom: 90px;     /* Abstand zur Bannerleiste (passe ggf. an) */
     z-index: 999;
     height: 56px;
     background: linear-gradient(90deg, #ff6b6b 0%, #4286f4 100%);
@@ -333,16 +332,15 @@ if ($kategorie && $buchstabe) {
 }
 @media (max-width: 700px) {
     .floating-eingabe-btn {
-        left: 50vw;
+        right: 12px;
         bottom: 82px;
         width: 90vw;
         min-width: unset;
         height: 48px;
         font-size: 1em;
-        transform: translateX(-50%);
     }
 }
-    </style>
+</style>
 </head>
 <body>
 <div class="user-info">
