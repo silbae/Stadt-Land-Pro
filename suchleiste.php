@@ -1,7 +1,5 @@
 <?php
 require_once 'Connect.php';
-<?php
-require_once 'Connect.php';
 session_start();
 $user_email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
 
