@@ -6,12 +6,12 @@ $user_email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
 $db = new Connect();
 $db->connect();
 
-// Kategorien aus der Datenbank holen (eindeutig und normalisiert)
+// Kategorien aus der Datenbank holen
 $kategorien = [];
 $sql = "SELECT DISTINCT TRIM(LOWER(kategorie)) AS kategorie FROM Eintrag ORDER BY kategorie ASC";
 $result = $db->query($sql);
 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-    $kategorien[] = ucfirst($row['kategorie']); // Für schöne Anzeige
+    $kategorien[] = ucfirst($row['kategorie']);
 }
 
 // Eingaben verarbeiten:
@@ -24,17 +24,6 @@ if ($kategorie && $buchstabe) {
     $query = $db->query("SELECT wort FROM Eintrag WHERE kategorie = '$kategorie' AND wort LIKE '$search'");
     while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
         $treffer[] = $row['wort'];
-    }
-}
-
-// Bewertungszahlen holen (sicheres prepare/execute)
-$bewertetCounts = [];
-if (count($treffer) > 0) {
-    $placeholders = implode(',', array_fill(0, count($treffer), '?'));
-    $sql = "SELECT wort, bewertet FROM bewertet WHERE wort IN ($placeholders)";
-    $stmt = $db->select($sql, $treffer);
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $bewertetCounts[$row['wort']] = $row['bewertet'];
     }
 }
 ?>
@@ -172,25 +161,6 @@ if (count($treffer) > 0) {
         .bodenleiste img:hover {
             transform: scale(1.08) rotate(-2deg);
         }
-        .bewerten-btn {
-            background: #ffe066;
-            color: #333;
-            border: 1px solid #ffd700;
-            border-radius: 5px;
-            padding: 3px 13px;
-            margin-left: 15px;
-            font-size: 1.06em;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .bewerten-btn:hover {
-            background: #ffd700;
-        }
-        .bewertet-count {
-            font-weight:bold;
-            margin-left: 8px;
-            color: #ff8800;
-        }
         @media (max-width: 600px) {
             .such-container, .ergebnisse {
                 min-width: unset;
@@ -204,56 +174,56 @@ if (count($treffer) > 0) {
             }
         }
         .logout-btn {
-    position: absolute;
-    top: 24px;
-    right: 32px;
-    background: linear-gradient(90deg, #4286f4 40%, #63e6be 100%);
-    color: white;
-    padding: 8px 24px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.12em;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-    transition: background 0.25s;
-    border: none;
-    cursor: pointer;
-    letter-spacing: 1px;
-}
-.logout-btn:hover {
-    background: linear-gradient(90deg, #ff6b6b 10%, #b96bff 100%);
-}
+            position: absolute;
+            top: 24px;
+            right: 32px;
+            background: linear-gradient(90deg, #4286f4 40%, #63e6be 100%);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.12em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            transition: background 0.25s;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 1px;
+        }
+        .logout-btn:hover {
+            background: linear-gradient(90deg, #ff6b6b 10%, #b96bff 100%);
+        }
         .user-info {
-    position: absolute;
-    top: 22px;
-    left: 32px;
-    display: flex;
-    align-items: center;
-    background: linear-gradient(90deg, #4286f4 40%, #63e6be 100%);
-    color: white;
-    padding: 7px 18px 7px 10px;
-    border-radius: 7px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-    font-weight: bold;
-    font-size: 1.08em;
-    gap: 12px;
-    z-index: 100;
-}
-.user-info .icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 6px;
-}
-.user-info .icon img {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-}
+            position: absolute;
+            top: 22px;
+            left: 32px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(90deg, #4286f4 40%, #63e6be 100%);
+            color: white;
+            padding: 7px 18px 7px 10px;
+            border-radius: 7px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            font-weight: bold;
+            font-size: 1.08em;
+            gap: 12px;
+            z-index: 100;
+        }
+        .user-info .icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 6px;
+        }
+        .user-info .icon img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
@@ -263,74 +233,52 @@ if (count($treffer) > 0) {
     </span>
     <?php echo htmlspecialchars($user_email); ?>
 </div>
-    <a href="logout.php" class="logout-btn">Logout</a>
-    <div class="fancy-header">Stadt-Land-Pro - Get on the Next Level</div>
-    <div class="suchleisten-wrapper">
-        <div class="such-container">
-            <form method="get">
-                <label>
-                    Kategorie:<br>
-                    <select name="kategorie">
-                        <option value="">-- auswählen --</option>
-                        <?php foreach ($kategorien as $kat): ?>
-                            <option value="<?php echo htmlspecialchars($kat); ?>" <?php if ($kat == $kategorie) echo 'selected'; ?>>
-                                <?php echo htmlspecialchars($kat); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </label>
-                <label>
-                    Anfangsbuchstabe:<br>
-                    <input type="text" name="buchstabe" maxlength="1" style="text-transform: uppercase;" value="<?php echo htmlspecialchars($buchstabe); ?>">
-                </label>
-                <button type="submit">Suchen</button>
-            </form>
-        </div>
-    </div>
-    <div class="ergebnisse-wrapper">
-        <div class="ergebnisse">
-            <?php if ($kategorie && $buchstabe): ?>
-                <?php if (count($treffer) > 0): ?>
-                    <strong>Gefundene Wörter:</strong><br>
-                    <?php foreach ($treffer as $wort): ?>
-                        <div class="ergebnis-zeile">
-                            <?php echo htmlspecialchars($wort); ?>
-                            <button class="bewerten-btn" data-wort="<?php echo htmlspecialchars($wort); ?>" title="Bewerten">👍</button>
-                            <span class="bewertet-count" id="bewertet-<?php echo htmlspecialchars($wort); ?>">
-                                <?php echo isset($bewertetCounts[$wort]) ? $bewertetCounts[$wort] : 0; ?>
-                            </span>
-                        </div>
+<a href="logout.php" class="logout-btn">Logout</a>
+<div class="fancy-header">Stadt-Land-Pro - Get on the Next Level</div>
+<div class="suchleisten-wrapper">
+    <div class="such-container">
+        <form method="get">
+            <label>
+                Kategorie:<br>
+                <select name="kategorie">
+                    <option value="">-- auswählen --</option>
+                    <?php foreach ($kategorien as $kat): ?>
+                        <option value="<?php echo htmlspecialchars($kat); ?>" <?php if ($kat == $kategorie) echo 'selected'; ?>>
+                            <?php echo htmlspecialchars($kat); ?>
+                        </option>
                     <?php endforeach; ?>
-                <?php else: ?>
-                    <div class="hinweis">Keine Treffer gefunden.</div>
-                <?php endif; ?>
+                </select>
+            </label>
+            <label>
+                Anfangsbuchstabe:<br>
+                <input type="text" name="buchstabe" maxlength="1" style="text-transform: uppercase;" value="<?php echo htmlspecialchars($buchstabe); ?>">
+            </label>
+            <button type="submit">Suchen</button>
+        </form>
+    </div>
+</div>
+<div class="ergebnisse-wrapper">
+    <div class="ergebnisse">
+        <?php if ($kategorie && $buchstabe): ?>
+            <?php if (count($treffer) > 0): ?>
+                <strong>Gefundene Wörter:</strong><br>
+                <?php foreach ($treffer as $wort): ?>
+                    <div class="ergebnis-zeile">
+                        <?php echo htmlspecialchars($wort); ?>
+                    </div>
+                <?php endforeach; ?>
             <?php else: ?>
-                <div class="hinweis">Bitte Kategorie und Anfangsbuchstaben auswählen.</div>
+                <div class="hinweis">Keine Treffer gefunden.</div>
             <?php endif; ?>
-        </div>
+        <?php else: ?>
+            <div class="hinweis">Bitte Kategorie und Anfangsbuchstaben auswählen.</div>
+        <?php endif; ?>
     </div>
-    <div class="bodenleiste">
-        <a href="https://www.example.com/werbung1" target="_blank"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=400&h=400" alt="Werbung 1"></a>
-        <a href="https://www.example.com/werbung2" target="_blank"><img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=facearea&w=400&h=400" alt="Werbung 2"></a>
-        <a href="https://www.example.com/werbung3" target="_blank"><img src="https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=400&h=400" alt="Werbung 3"></a>
-    </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.bewerten-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const wort = this.dataset.wort;
-                fetch('bewertet.php', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    body: 'wort=' + encodeURIComponent(wort)
-                })
-                .then(response => response.text())
-                .then(count => {
-                    document.getElementById('bewertet-' + wort).textContent = count;
-                });
-            });
-        });
-    });
-    </script>
+</div>
+<div class="bodenleiste">
+    <a href="https://www.example.com/werbung1" target="_blank"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=400&h=400" alt="Werbung 1"></a>
+    <a href="https://www.example.com/werbung2" target="_blank"><img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=facearea&w=400&h=400" alt="Werbung 2"></a>
+    <a href="https://www.example.com/werbung3" target="_blank"><img src="https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=400&h=400" alt="Werbung 3"></a>
+</div>
 </body>
 </html>
