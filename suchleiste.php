@@ -202,9 +202,30 @@ if (count($treffer) > 0) {
                 height: 36px;
             }
         }
+        .logout-btn {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    background: linear-gradient(90deg, #4286f4 40%, #63e6be 100%);
+    color: white;
+    padding: 8px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.12em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    transition: background 0.25s;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+.logout-btn:hover {
+    background: linear-gradient(90deg, #ff6b6b 10%, #b96bff 100%);
+}
     </style>
 </head>
 <body>
+    <a href="logout.php" class="logout-btn">Logout</a>
     <div class="fancy-header">Stadt-Land-Pro - Get on the Next Level</div>
     <div class="suchleisten-wrapper">
         <div class="such-container">
