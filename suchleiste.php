@@ -243,20 +243,53 @@ if ($kategorie && $buchstabe) {
     transition: background 0.25s;
     min-width: 120px;
 }
+.suchleisten-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    position: relative;
+    gap: 0;
+}
+
+.eingabe-btn {
+    margin-left: 18px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(90deg, #ff6b6b 0%, #4286f4 100%);
+    color: white;
+    padding: 0 26px;
+    border-radius: 10px;
+    font-size: 1.11em;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    border: none;
+    cursor: pointer;
+    transition: background 0.25s;
+    min-width: 120px;
+    z-index: 2;
+}
 .eingabe-btn:hover {
     background: linear-gradient(90deg, #63e6be 0%, #b96bff 100%);
 }
-@media (max-width: 600px) {
+@media (max-width: 700px) {
     .suchleisten-wrapper {
         flex-direction: column;
         align-items: center;
-        gap: 18px;
     }
     .eingabe-btn {
         margin-left: 0;
         margin-top: 18px;
         width: 95vw;
         height: 48px;
+        justify-content: center;
+    }
+    .such-container {
+        width: 95vw;
+        min-width: unset;
     }
 }
     </style>
