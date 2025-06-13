@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_PO
 <div class="center-wrapper">
     <div class="eingabe-box">
         <h2>Wort hinzufügen</h2>
-        <?php echo $meldung; ?>
+        
         <form method="post" action="">
             <input class="eingabe-input" type="text" id="word" name="word" placeholder="Wort eingeben" required>
             <br>
