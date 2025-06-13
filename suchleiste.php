@@ -375,26 +375,29 @@ if ($kategorie && $buchstabe) {
     }
 }
 .ergebnisse {
-    min-width: 600px !important;
-    max-width: 800px;
-    padding: 40px 60px !important;
-    border-radius: 18px;
-    font-size: 1.25em;
+    min-width: 350px !important;
+    max-width: 400px;
+    padding: 30px 10px !important;
+    border-radius: 14px;
+    font-size: 1.1em;
 }
 
 .ergebnis-zeile {
-    font-size: 1.2em;
+    font-size: 1em;
     color: #1a1a1a;
-    margin: 18px 0 18px 0;
-    border-bottom: 2px solid #ececec;
-    padding: 22px 0;
-    min-width: 550px;
+    margin: 8px 0;
+    border-bottom: 1px solid #ececec;
+    padding: 10px 0;
+    min-width: 0;
+    width: 100%;
+    max-width: 350px;
     background: #f8f8f8;
-    border-radius: 10px;
+    border-radius: 7px;
     display: flex;
     align-items: center;
     justify-content: center;
-}        
+    word-break: break-word;
+}
 </style>
 </head>
 <body>
