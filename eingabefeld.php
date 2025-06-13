@@ -7,7 +7,7 @@ $db->connect();
 
 $kategorien = [];
 $stm = $db->query("SELECT * FROM Kategorie");
-while ($kategorie = $stm->fetch_assoc()){
+while ($kategorie = $stm->fetch(PDO::FETCH_ASSOC)){
     $kategorien[] = $kategorie;
 }
 
