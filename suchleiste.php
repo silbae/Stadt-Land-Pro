@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once 'Connect.php';
 
 // Verbindung aufbauen
@@ -11,7 +10,7 @@ $kategorien = [];
 $sql = "SELECT DISTINCT TRIM(LOWER(kategorie)) AS kategorie FROM Eintrag ORDER BY kategorie ASC";
 $result = $db->query($sql);
 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-    $kategorien[] = ucfirst($row['kategorie']); // Für schöne Anzeige
+    $kategorien[] = ucfirst($row['kategorie']);
 }
 
 // Eingaben verarbeiten:
@@ -24,6 +23,17 @@ if ($kategorie && $buchstabe) {
     $query = $db->query("SELECT wort FROM Eintrag WHERE kategorie = '$kategorie' AND wort LIKE '$search'");
     while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
         $treffer[] = $row['wort'];
+    }
+}
+
+// Bewertungszahlen holen
+$bewertetCounts = [];
+if (count($treffer) > 0) {
+    $placeholders = implode(',', array_fill(0, count($treffer), '?'));
+    $stmt = $db->pdo->prepare("SELECT wort, bewertet FROM Bewertungen WHERE wort IN ($placeholders)");
+    $stmt->execute($treffer);
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $bewertetCounts[$row['wort']] = $row['bewertet'];
     }
 }
 ?>
@@ -126,6 +136,9 @@ if ($kategorie && $buchstabe) {
             margin: 8px 0 8px 0;
             border-bottom: 1px solid #ececec;
             padding-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .ergebnisse strong {
             font-size: 1.18em;
@@ -158,6 +171,25 @@ if ($kategorie && $buchstabe) {
         .bodenleiste img:hover {
             transform: scale(1.08) rotate(-2deg);
         }
+        .bewerten-btn {
+            background: #ffe066;
+            color: #333;
+            border: 1px solid #ffd700;
+            border-radius: 5px;
+            padding: 3px 13px;
+            margin-left: 15px;
+            font-size: 1.06em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .bewerten-btn:hover {
+            background: #ffd700;
+        }
+        .bewertet-count {
+            font-weight:bold;
+            margin-left: 8px;
+            color: #ff8800;
+        }
         @media (max-width: 600px) {
             .such-container, .ergebnisse {
                 min-width: unset;
@@ -170,31 +202,9 @@ if ($kategorie && $buchstabe) {
                 height: 36px;
             }
         }
-        .logout-rechts {
-    position: fixed;
-    top: 22px;
-    right: 32px;
-    z-index: 1000;
-} //logout
-.logout-rechts a {
-    background: #4286f4;
-    color: #fff;
-    padding: 8px 22px;
-    border-radius: 7px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background 0.2s;
-}
-.logout-rechts a:hover {
-    background: #ff6b6b;
-} 
     </style>
 </head>
 <body>
-    <body> //logout
-    <div class="logout-rechts">
-        <a href="logout.php">Logout</a>
-    </div>
     <div class="fancy-header">Stadt-Land-Pro - Get on the Next Level</div>
     <div class="suchleisten-wrapper">
         <div class="such-container">
@@ -224,7 +234,13 @@ if ($kategorie && $buchstabe) {
                 <?php if (count($treffer) > 0): ?>
                     <strong>Gefundene Wörter:</strong><br>
                     <?php foreach ($treffer as $wort): ?>
-                        <div class="ergebnis-zeile"><?php echo htmlspecialchars($wort); ?></div>
+                        <div class="ergebnis-zeile">
+                            <?php echo htmlspecialchars($wort); ?>
+                            <button class="bewerten-btn" data-wort="<?php echo htmlspecialchars($wort); ?>" title="Bewerten">👍</button>
+                            <span class="bewertet-count" id="bewertet-<?php echo htmlspecialchars($wort); ?>">
+                                <?php echo isset($bewertetCounts[$wort]) ? $bewertetCounts[$wort] : 0; ?>
+                            </span>
+                        </div>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <div class="hinweis">Keine Treffer gefunden.</div>
@@ -240,5 +256,23 @@ if ($kategorie && $buchstabe) {
         <a href="https://www.example.com/werbung2" target="_blank"><img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=facearea&w=400&h=400" alt="Werbung 2"></a>
         <a href="https://www.example.com/werbung3" target="_blank"><img src="https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=400&h=400" alt="Werbung 3"></a>
     </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.bewerten-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const wort = this.dataset.wort;
+                fetch('bewertet.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: 'wort=' + encodeURIComponent(wort)
+                })
+                .then(response => response.text())
+                .then(count => {
+                    document.getElementById('bewertet-' + wort).textContent = count;
+                });
+            });
+        });
+    });
+    </script>
 </body>
 </html>
