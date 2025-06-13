@@ -13,7 +13,7 @@ while ($kategorie = $stm->fetch_assoc()){
 
 print_r($kategorien);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_POST['Kategorie'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $word = $_POST['word'];
     $kategorie = $_POST['Kategorie'];
 
