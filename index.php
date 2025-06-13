@@ -1,7 +1,17 @@
 <?php 
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    // Auswahlseite: Login oder Registrierung
+    echo '
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;">
+        <div style="background:#f8f9fa;padding:30px;border-radius:8px;box-shadow:0 2px 8px #e0e0e0;text-align:center;">
+            <h2>Willkommen zu Stadt Land Pro</h2>
+            <p>Bitte wählen Sie eine Option:</p>
+            <a href="login.php" style="display:inline-block;margin:10px;padding:10px 30px;background:#007bff;color:#fff;text-decoration:none;border-radius:5px;">Login</a>
+            <a href="register.php" style="display:inline-block;margin:10px;padding:10px 30px;background:#28a745;color:#fff;text-decoration:none;border-radius:5px;">Registrieren</a>
+        </div>
+    </div>
+    ';
     exit();
 }
 
