@@ -10,7 +10,7 @@ $kategorien = [];
 $sql = "SELECT DISTINCT TRIM(LOWER(kategorie)) AS kategorie FROM Eintrag ORDER BY kategorie ASC";
 $result = $db->query($sql);
 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-    $kategorien[] = ucfirst($row['kategorie']);
+    $kategorien[] = ucfirst($row['kategorie']); // Für schöne Anzeige
 }
 
 // Eingaben verarbeiten:
@@ -26,11 +26,12 @@ if ($kategorie && $buchstabe) {
     }
 }
 
-// Bewertungszahlen holen
+// Bewertungszahlen holen (sicheres prepare/execute)
 $bewertetCounts = [];
 if (count($treffer) > 0) {
     $placeholders = implode(',', array_fill(0, count($treffer), '?'));
-    $stmt = $db->pdo->prepare("SELECT wort, bewertet FROM Bewertungen WHERE wort IN ($placeholders)");
+    $sql = "SELECT wort, bewertet FROM Bewertungen WHERE wort IN ($placeholders)";
+    $stmt = $db->pdo->prepare($sql);
     $stmt->execute($treffer);
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $bewertetCounts[$row['wort']] = $row['bewertet'];
@@ -251,7 +252,6 @@ if (count($treffer) > 0) {
         </div>
     </div>
     <div class="bodenleiste">
-        <!-- Ersetze die Bild-URLs durch deine eigenen Werbebanner -->
         <a href="https://www.example.com/werbung1" target="_blank"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=400&h=400" alt="Werbung 1"></a>
         <a href="https://www.example.com/werbung2" target="_blank"><img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=facearea&w=400&h=400" alt="Werbung 2"></a>
         <a href="https://www.example.com/werbung3" target="_blank"><img src="https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=400&h=400" alt="Werbung 3"></a>
