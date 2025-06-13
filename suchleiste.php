@@ -323,7 +323,7 @@ if ($kategorie && $buchstabe) {
             </label>
             <button type="submit">Suchen</button>
         </form>
-    </div>
+            </div>
         <a href="eingabefeld.php" class="eingabe-btn">Zur Eingabe</a>
 </div>
 <div class="ergebnisse-wrapper">
