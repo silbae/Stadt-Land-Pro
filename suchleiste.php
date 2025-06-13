@@ -12,7 +12,7 @@ $result = $db->query($sql);
 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
     $kategorien[] = ucfirst($row['kategorie']); // Für schöne Anzeige
 }
-
+print_r($kategorien);
 // Eingaben verarbeiten:
 $kategorie = isset($_GET['kategorie']) ? $_GET['kategorie'] : '';
 $buchstabe = isset($_GET['buchstabe']) ? strtoupper($_GET['buchstabe']) : '';
