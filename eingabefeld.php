@@ -150,9 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_PO
 <div class="fancy-header">Stadt-Land-Pro – Wort hinzufügen</div>
 <div class="center-wrapper">
     <div class="eingabe-box">
-        <?php if ($success): ?>
             <div class="success-message">Wort erfolgreich gespeichert!</div>
-        <?php endif; ?>
         <h2>Wort hinzufügen</h2>
         <form method="post" action="">
             <input class="eingabe-input" type="text" id="word" name="word" placeholder="Wort eingeben" required>
