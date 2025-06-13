@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
             <h2>Willkommen zu Stadt Land Pro</h2>
             <p>Bitte wählen Sie eine Option:</p>
             <a href="login.php" style="display:inline-block;margin:10px;padding:10px 30px;background:#007bff;color:#fff;text-decoration:none;border-radius:5px;">Login</a>
-            <a href="register.php" style="display:inline-block;margin:10px;padding:10px 30px;background:#28a745;color:#fff;text-decoration:none;border-radius:5px;">Registrieren</a>
+            <a href="registrieren.php" style="display:inline-block;margin:10px;padding:10px 30px;background:#28a745;color:#fff;text-decoration:none;border-radius:5px;">Registrieren</a>
         </div>
     </div>
     ';
