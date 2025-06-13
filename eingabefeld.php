@@ -1,20 +1,3 @@
-<?php
-include 'Connect.php';
-
-// Erstelle ein Connect-Objekt und stelle Verbindung her
-$db = new Connect();
-$db->connect();
-
-$kategorien = [];
-$stm = $db->query("SELECT * FROM Kategorie);
-while ($kategorie = $stm->fetch_assoc()){
-    kategorien[] = $kategorie;
-}
-
-print_r($kategorien);
-
-
-?>
 
 <!DOCTYPE html>
 <html lang="de">
