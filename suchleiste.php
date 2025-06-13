@@ -161,6 +161,29 @@ if ($kategorie && $buchstabe) {
         .bodenleiste img:hover {
             transform: scale(1.08) rotate(-2deg);
         }
+
+        .anzeigenfeld {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    min-width: 210px;
+    background: #fffbe7;
+    border-radius: 9px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+    font-size: 1.19em;
+    color: #b96bff;
+    font-weight: bold;
+    padding: 0 18px;
+}
+@media (max-width: 600px) {
+    .anzeigenfeld {
+        height: 36px;
+        font-size: 1em;
+        min-width: 120px;
+        padding: 0 8px;
+    }
+}
         @media (max-width: 600px) {
             .such-container, .ergebnisse {
                 min-width: unset;
@@ -396,6 +419,7 @@ if ($kategorie && $buchstabe) {
     <a href="https://www.example.com/werbung1" target="_blank"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=400&h=400" alt="Werbung 1"></a>
     <a href="https://www.example.com/werbung2" target="_blank"><img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=facearea&w=400&h=400" alt="Werbung 2"></a>
     <a href="https://www.example.com/werbung3" target="_blank"><img src="https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=facearea&w=400&h=400" alt="Werbung 3"></a>
+<div class="anzeigenfeld">Hier könnte Ihre Werbung stehen</div>
 </div>
 </body>
 </html>
