@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id'])) {
     ';
     exit();
 }
-
+/*
 $servername = "localhost"; 
 $username = "User_Stadt-Land-Pro"; 
 $password = ""; 
@@ -41,4 +41,5 @@ if ($result->num_rows > 0) {
 } 
 
 $conn->close(); 
+*/
 ?>
