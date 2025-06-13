@@ -9,7 +9,7 @@ if(isset($_POST['login'])) {
     $passwort = $_POST['passwort'];
 
     // Holt den Benutzer anhand der E-Mail-Adresse
-    $user = $conn->select( //Änderung
+    $user = $conn->select(
         "SELECT * FROM Benutzer WHERE Email = :email",
         array('email' => $email)
     );
@@ -18,7 +18,8 @@ if(isset($_POST['login'])) {
     if ($user && isset($user['Passwort']) && password_verify($passwort, $user['Passwort'])) {
         $_SESSION['userid'] = $user['Email'];
         $_SESSION['email'] = $user['Email'];
-        die('Login erfolgreich. Weiter zu <a href="geheim.php">internen Bereich</a>');
+        header("Location: suchleiste.php");
+        exit();
     } else {
         $errorMessage = "E-Mail oder Passwort war ungültig<br>";
     }
