@@ -1,6 +1,7 @@
 <?php
 require_once 'Connect.php';
 session_start();
+$user_email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
 // Beispiel: $_SESSION['email'] muss beim Login gesetzt werden!
 $user_email = isset($_SESSION['email']) ? $_SESSION['email'] : 'Gast';
 // Verbindung aufbauen
@@ -259,7 +260,7 @@ if (count($treffer) > 0) {
     </style>
 </head>
 <body>
-    <div class="user-info">
+<div class="user-info">
     <span class="icon">
         <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Benutzericon">
     </span>
