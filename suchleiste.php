@@ -106,20 +106,23 @@ if ($kategorie && $buchstabe) {
             background: linear-gradient(90deg, #4286f4 0%, #b96bff 100%);
         }
         .ergebnisse-wrapper {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-top: 70px;
-            margin-bottom: 120px;
-        }
-        .ergebnisse {
-            background: #fff;
-            min-width: 340px;
-            padding: 26px 32px;
-            border-radius: 16px;
-            box-shadow: 0 4px 32px rgba(0,0,0,0.09);
-            text-align: center;
-        }
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+    margin-bottom: 120px;
+}
+
+.ergebnisse {
+    background: #fff;
+    min-width: 600px;  
+    max-width: 900px;  
+    width: 100%;
+    padding: 26px 48px; 
+    border-radius: 16px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.09);
+    text-align: center;
+}
         .ergebnis-zeile {
             font-size: 1.18em;
             color: #1a1a1a;
