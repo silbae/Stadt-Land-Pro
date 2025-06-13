@@ -5,6 +5,14 @@ include 'Connect.php';
 $db = new Connect();
 $db->connect();
 
+$kategorien = [];
+$stm = $db->query("SELECT * FROM Kategorie);
+while ($kategorie = $stm->fetch_assoc()){
+    kategorien[] = $kategorie;
+}
+
+print_r($kategorien);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['word']) && isset($_POST['Kategorie'])) {
     $word = $_POST['word'];
     $kategorie = $_POST['Kategorie'];
