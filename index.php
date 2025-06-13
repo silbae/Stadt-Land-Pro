@@ -1,4 +1,4 @@
-<?php 
+<?php //Silas
 session_start();
 if (!isset($_SESSION['user_id'])) {
     // Auswahlseite: Login oder Registrierung
