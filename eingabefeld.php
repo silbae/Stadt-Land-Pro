@@ -13,16 +13,6 @@ while ($kategorie = $stm->fetch_assoc()){
 
 print_r($kategorien);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $word = $_POST['word'];
-    $kategorie = $_POST['Kategorie'];
-
-    // Sicherheit: Prepared Statement verwenden
-    $stm = "INSERT INTO Eintrag (word, Kategorie) VALUES (:word, :Kategorie)";
-    $db->queryPrep($stm, [':word' => $word, ':Kategorie' => $Kategorie]);
-
-    echo "Wort erfolgreich gespeichert!";
-}
 
 ?>
 
