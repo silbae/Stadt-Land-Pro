@@ -1,20 +1,45 @@
 <?php
 require_once 'Connect.php';
+session_start();
+
+// Benutzer muss eingeloggt sein, E-Mail aus Session holen
+if(!isset($_SESSION['email'])) {
+    http_response_code(403);
+    echo "Nicht eingeloggt";
+    exit;
+}
+
+$email = $_SESSION['email'];
+$wort = isset($_POST['wort']) ? $_POST['wort'] : '';
+
+if(!$wort) {
+    http_response_code(400);
+    echo "Kein Wort angegeben";
+    exit;
+}
+
 $db = new Connect();
 $db->connect();
 
-if(isset($_POST['wort'])) {
-    $wort = $_POST['wort'];
-    // Upsert: Bewertung erhöhen oder neuen Datensatz anlegen:
-    $sql = "INSERT INTO Bewertungen (wort, bewertet) VALUES (:wort, 1)
-            ON DUPLICATE KEY UPDATE bewertet = bewertet + 1";
-    $stmt = $db->pdo->prepare($sql);
-    $stmt->execute(['wort' => $wort]);
+// Prüfen, ob schon ein Eintrag für dieses Wort & Email existiert
+$sql = "SELECT COUNT(*) FROM bewertet WHERE Email = ? AND Wort = ?";
+$stmt = $db->pdo->prepare($sql);
+$stmt->execute([$email, $wort]);
+$count = $stmt->fetchColumn();
 
-    // Neue Anzahl zurückgeben
-    $sql = "SELECT bewertet FROM Bewertungen WHERE wort = :wort";
+if ($count == 0) {
+    // Wenn noch nicht bewertet, Eintrag hinzufügen
+    $sql = "INSERT INTO bewertet (Email, Wort) VALUES (?, ?)";
     $stmt = $db->pdo->prepare($sql);
-    $stmt->execute(['wort' => $wort]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    echo $row ? $row['bewertet'] : '1';
+    $stmt->execute([$email, $wort]);
 }
+
+// Anzahl der Bewertungen für das Wort zählen und zurückgeben
+$sql = "SELECT COUNT(*) FROM bewertet WHERE Wort = ?";
+$stmt = $db->pdo->prepare($sql);
+$stmt->execute([$wort]);
+$anzahl = $stmt->fetchColumn();
+
+echo $anzahl;
+?>
+
