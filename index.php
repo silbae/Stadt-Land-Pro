@@ -1,20 +1,21 @@
 <?php 
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
 
 $servername = "localhost"; 
 $username = "User_Stadt-Land-Pro"; 
 $password = ""; 
 $dbname = "Stadt-Land-Pro"; 
 
-
 // Create connection 
 $conn = new mysqli($servername, $username, $password, $dbname); 
 
 // Check connection 
-
 if ($conn->connect_error) { 
-
     die("Connection failed: " . $conn->connect_error); 
-
 } 
 
 $sql = "SELECT * FROM Eintrag"; 
@@ -25,14 +26,9 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) { 
         echo "Wort: ".$row["Wort"]." - Kategorie: ".$row["Kategorie"]."<br>"; 
     } 
-
 } else { 
-
     echo "0 results"; 
-
 } 
 
 $conn->close(); 
-
-?> 
-
+?>
