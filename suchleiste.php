@@ -1,4 +1,5 @@
-<?php
+<?php //Damian: Hauptseite der Website Stadt Land Pro. Design, Suchabfrage an Datenbank, Anordnung der Elemente, Werbeleiste, Herzen (weiterführend für später Likes), 
+//Silas: Verknüpfung Registrieren/Login/Out und Eingabebuttons mit der Seite suchleiste.php, Icon für Benutzer(weiterführend später Account mit Profilbild, Level, etc.)
 require_once 'Connect.php';
 session_start();
 $user_email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
