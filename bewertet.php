@@ -1,4 +1,4 @@
-<?php //Damian, aber unvollständig ohne Funktion... Idee noch nicht umgesetzt
+<?php //Damian, aber unvollständig ohne Funktion... Idee noch nicht umgesetzt. Ziel soll sein, Wörtern Likes zu geben, welche intern gespeichert werden.
 require_once 'Connect.php';
 session_start();
 
