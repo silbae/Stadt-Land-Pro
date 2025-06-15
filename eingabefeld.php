@@ -1,4 +1,4 @@
-<?php
+<?php //Kilian: Eingabefeld zum Hinzufügen von Wörtern auf der Website in die Datenbank
 require_once 'Connect.php';
 
 // Erstelle ein Connect-Objekt und stelle Verbindung her
