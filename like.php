@@ -1,4 +1,4 @@
-<?php
+<?php //Damian: anderer Ansatz wie bewertet.php, auch unvollständig
 require_once 'Connect.php';
 session_start();
 
