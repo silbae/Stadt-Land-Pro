@@ -1,4 +1,4 @@
-<?php
+<?php //Damian, aber unvollständig ohne Funktion... Idee noch nicht umgesetzt
 require_once 'Connect.php';
 session_start();
 
