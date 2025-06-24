@@ -69,5 +69,28 @@ $xp_percent = max(0, min(100, ($xp / $xp_max) * 100));
         .xp-bar-text {
             position: relative;
             z-index: 2;
-           *
-
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.08em;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 4px #0002;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="profil-info">
+        <div><strong>E-Mail:</strong> <?php echo htmlspecialchars($user_email); ?></div>
+        <div><strong>Level:</strong> <?php echo $level; ?></div>
+        <div style="margin-top: 13px;">
+            <strong>XP:</strong>
+            <span class="xp-bar-container">
+                <span class="xp-bar"></span>
+                <span class="xp-bar-text"><?php echo $xp . ' / ' . $xp_max; ?></span>
+            </span>
+        </div>
+    </div>
+</body>
+</html>
