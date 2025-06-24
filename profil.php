@@ -6,7 +6,7 @@ $user_email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
 
 $level = 1;
 $xp = 0;
-$xp_max = 50; // Standardwert, kann nach Belieben angepasst werden
+$xp_max = 100; // Immer 100 für die Anzeige/Balken
 
 if ($user_email) {
     $db = new Connect();
@@ -15,10 +15,11 @@ if ($user_email) {
     if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $level = (int)$row['Level'];
         $xp = (int)$row['Xp'];
-        // Beispiel für dynamisches XP-Maximum:
-        $xp_max = 50 + ($level - 1) * 25;
     }
 }
+
+// Prozent für Balken berechnen (max 100%)
+$xp_percent = max(0, min(100, ($xp / $xp_max) * 100));
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -56,9 +57,9 @@ if ($user_email) {
             margin-left: 10px;
         }
         .xp-bar {
-            background: linear-gradient(90deg,#63e6be,#4286f4);
+            background: #4286f4;
             height: 100%;
-            width: <?php echo min(100, ($xp/$xp_max)*100); ?>%;
+            width: <?php echo $xp_percent; ?>%;
             transition: width 0.3s;
         }
         .xp-text {
