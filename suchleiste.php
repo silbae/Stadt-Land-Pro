@@ -448,7 +448,7 @@ if ($kategorie && $buchstabe) {
 </style>
 </head>
 <body>
-<a href="profil.php" class="user-info" style="text-decoration: none;">
+<a href="profil.php" class="profil-btn" style="text-decoration: none;">
     <span class="icon">
         <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Benutzericon">
     </span>
