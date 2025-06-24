@@ -20,7 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_PO
     $stm = "INSERT INTO Eintrag (Wort, Kategorie) VALUES (:word, :Kategorie)";
     $db->insert($stm, [':word' => $word, ':Kategorie' => $kategorie]);
 
-    echo "Wort erfolgreich gespeichert!";
+    // XP vergeben, wenn Benutzer angemeldet ist
+    if (isset($_SESSION['email'])) {
+        $user_email = $_SESSION['email'];
+        $db->query("UPDATE Benutzer SET Xp = Xp + 12 WHERE Email = '$user_email'");
+    }
+
+    echo '<div class="success-message">Wort erfolgreich gespeichert!</div>';
 }
 
 ?>
