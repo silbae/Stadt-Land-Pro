@@ -29,23 +29,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_PO
         $db->insert($stm, [':word' => $word, ':Kategorie' => $kategorie]);
 
         // XP und Level bearbeiten
-        if (isset($_SESSION['email'])) {
-            $user_email = $_SESSION['email'];
-            // 1. XP erhöhen
-            $db->insert("UPDATE Benutzer SET Xp = Xp + 12 WHERE Email = :email", [':email' => $user_email]);
-            // 2. Level-Up prüfen
-            $stmt = $db->query("SELECT Xp, Level FROM Benutzer WHERE Email = :email", [':email' => $user_email]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            while ($user['Xp'] >= 100) {
-                $user['Xp'] -= 100;
-                $user['Level'] += 1;
-                $db->insert("UPDATE Benutzer SET Xp = :xp, Level = :level WHERE Email = :email", [
-                    ':xp' => $user['Xp'],
-                    ':level' => $user['Level'],
-                    ':email' => $user_email
-                ]);
-            }
-        }
+      if (isset($_SESSION['email'])) {
+    $user_email = $_SESSION['email'];
+    // 1. XP erhöhen
+    $db->insert("UPDATE Benutzer SET Xp = Xp + 12 WHERE Email = :email", [':email' => $user_email]);
+
+    // 2. Aktuellen XP- und Level-Stand abfragen
+    $stmt = $db->insert("SELECT Xp, Level FROM Benutzer WHERE Email = :email", [':email' => $user_email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // 3. Level-Up prüfen und ggf. durchführen
+    while ($user['Xp'] >= 100) {
+        $user['Xp'] -= 100;
+        $user['Level'] += 1;
+        $db->insert("UPDATE Benutzer SET Xp = :xp, Level = :level WHERE Email = :email", [
+            ':xp' => $user['Xp'],
+            ':level' => $user['Level'],
+            ':email' => $user_email
+        ]);
+    }
+}
 
         echo '<div class="success-message">Wort erfolgreich gespeichert!</div>';
     }
