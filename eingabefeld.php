@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_PO
     $kategorie = $_POST['Kategorie'];
 
     // Prüfen, ob das Wort schon existiert
-    $checkStm = $db->query("SELECT COUNT(*) FROM Eintrag WHERE Wort = :word AND Kategorie = :Kategorie", [
+    $checkStm = $db->insert("SELECT COUNT(*) FROM Eintrag WHERE Wort = :word AND Kategorie = :Kategorie", [
         ':word' => $word,
         ':Kategorie' => $kategorie
     ]);
