@@ -424,6 +424,27 @@ if ($kategorie && $buchstabe) {
     transform: scale(1.2);
 }
         .user-info { cursor: pointer; }
+        .profil-btn {
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 32px;
+    background: linear-gradient(90deg, #4286f4 40%, #63e6be 100%);
+    color: white;
+    padding: 8px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.12em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    transition: background 0.25s;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+.profil-btn:hover {
+    background: linear-gradient(90deg, #ff6b6b 10%, #b96bff 100%);
+    color: white;
+}
 </style>
 </head>
 <body>
@@ -433,6 +454,7 @@ if ($kategorie && $buchstabe) {
     </span>
     <?php echo htmlspecialchars($user_email); ?>
 </a>
+    <a href="profil.php" class="profil-btn">Mein Profil</a>
 <a href="logout.php" class="logout-btn">Logout</a>
 <div class="fancy-header">Stadt-Land-Pro - Get on the Next Level</div>
 <div class="suchleisten-wrapper">
