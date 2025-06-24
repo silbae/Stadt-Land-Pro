@@ -434,7 +434,6 @@ if ($kategorie && $buchstabe) {
     <?php echo htmlspecialchars($user_email); ?>
 </a>
 <a href="logout.php" class="logout-btn">Logout</a>
-<a href="logout.php" class="logout-btn">Logout</a>
 <div class="fancy-header">Stadt-Land-Pro - Get on the Next Level</div>
 <div class="suchleisten-wrapper">
     <div class="such-container">
