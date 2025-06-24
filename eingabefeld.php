@@ -17,19 +17,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_PO
     $word = $_POST['word'];
     $kategorie = $_POST['Kategorie'];
 
-    // Sicherheit: Prepared Statement verwenden
-    $stm = "INSERT INTO Eintrag (Wort, Kategorie) VALUES (:word, :Kategorie)";
-    $db->insert($stm, [':word' => $word, ':Kategorie' => $kategorie]);
+    // Prüfen, ob das Wort schon existiert
+    $checkStm = $db->query("SELECT COUNT(*) FROM Eintrag WHERE Wort = :word AND Kategorie = :Kategorie", [
+        ':word' => $word,
+        ':Kategorie' => $kategorie
+    ]);
+    if ($checkStm->fetchColumn() > 0) {
+        echo '<div class="error-message">Dieses Wort existiert in dieser Kategorie bereits!</div>';
+    } else {
+        $stm = "INSERT INTO Eintrag (Wort, Kategorie) VALUES (:word, :Kategorie)";
+        $db->insert($stm, [':word' => $word, ':Kategorie' => $kategorie]);
 
-    // XP vergeben, wenn Benutzer angemeldet ist
-if (isset($_SESSION['email'])) {
-    $user_email = $_SESSION['email'];
-    $db->insert("UPDATE Benutzer SET Xp = Xp + 12 WHERE Email = :email", [':email' => $user_email]);
+        // XP und Level bearbeiten
+        if (isset($_SESSION['email'])) {
+            $user_email = $_SESSION['email'];
+            // 1. XP erhöhen
+            $db->insert("UPDATE Benutzer SET Xp = Xp + 12 WHERE Email = :email", [':email' => $user_email]);
+            // 2. Level-Up prüfen
+            $stmt = $db->query("SELECT Xp, Level FROM Benutzer WHERE Email = :email", [':email' => $user_email]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            while ($user['Xp'] >= 100) {
+                $user['Xp'] -= 100;
+                $user['Level'] += 1;
+                $db->insert("UPDATE Benutzer SET Xp = :xp, Level = :level WHERE Email = :email", [
+                    ':xp' => $user['Xp'],
+                    ':level' => $user['Level'],
+                    ':email' => $user_email
+                ]);
+            }
+        }
+
+        echo '<div class="success-message">Wort erfolgreich gespeichert!</div>';
+    }
 }
-
-    echo '<div class="success-message">Wort erfolgreich gespeichert!</div>';
-}
-
 ?>
 
 
