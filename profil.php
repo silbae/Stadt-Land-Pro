@@ -6,7 +6,7 @@ $user_email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
 
 $level = 1;
 $xp = 0;
-$xp_max = 100; // Immer 100 für die Anzeige/Balken
+$xp_max = 100;
 
 if ($user_email) {
     $db = new Connect();
@@ -18,7 +18,6 @@ if ($user_email) {
     }
 }
 
-// Prozent für Balken berechnen (max 100%)
 $xp_percent = max(0, min(100, ($xp / $xp_max) * 100));
 ?>
 <!DOCTYPE html>
@@ -50,40 +49,25 @@ $xp_percent = max(0, min(100, ($xp / $xp_max) * 100));
             background: #eee;
             border-radius: 6px;
             width: 220px;
-            height: 22px;
-            display: inline-block;
-            vertical-align: middle;
-            overflow: hidden;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            position: relative;
             margin-left: 10px;
+            overflow: hidden;
         }
         .xp-bar {
             background: #4286f4;
             height: 100%;
             width: <?php echo $xp_percent; ?>%;
             transition: width 0.3s;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 1;
         }
-        .xp-text {
-            margin-left: 12px;
-            font-size: 1em;
-            font-weight: bold;
-            color: #4286f4;
-        }
-    </style>
-</head>
-<body>
-    <div class="profil-info">
-        <div><strong>E-Mail:</strong> <?php echo htmlspecialchars($user_email); ?></div>
-        <div><strong>Level:</strong> <?php echo $level; ?></div>
-        <div style="margin-top: 13px;">
-            <strong>XP:</strong>
-            <span class="xp-bar-container">
-                <span class="xp-bar"></span>
-            </span>
-            <span class="xp-text"><?php echo $xp . ' / ' . $xp_max; ?></span>
-        </div>
-    </div>
-
-    <!-- Hier kann dein restlicher Profilinhalt folgen -->
-
-</body>
-</html>
+        .xp-bar-text {
+            position: relative;
+            z-index: 2;
+           *
+
