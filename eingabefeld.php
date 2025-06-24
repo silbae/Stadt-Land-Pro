@@ -18,12 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_PO
     $kategorie = $_POST['Kategorie'];
 
     // Prüfen, ob das Wort schon existiert
-    $checkStm = $db->insert("SELECT COUNT(*) FROM Eintrag WHERE Wort = :word AND Kategorie = :Kategorie", [
-        ':word' => $word,
-        ':Kategorie' => $kategorie
-    ]);
-    if ($checkStm) {
-        echo '<div class="error-message">Dieses Wort existiert in dieser Kategorie bereits!</div>';
+$checkStm = $db->query("SELECT COUNT(*) as cnt FROM Eintrag WHERE Wort = :word AND Kategorie = :Kategorie", [
+    ':word' => $word,
+    ':Kategorie' => $kategorie
+]);
+$result = $checkStm->fetch(PDO::FETCH_ASSOC);
+
+if ($result['cnt'] > 0) {
+    echo '<div class="error-message">Dieses Wort existiert in dieser Kategorie bereits!</div>';
     } else {
         $stm = "INSERT INTO Eintrag (Wort, Kategorie) VALUES (:word, :Kategorie)";
         $db->insert($stm, [':word' => $word, ':Kategorie' => $kategorie]);
