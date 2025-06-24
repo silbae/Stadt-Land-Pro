@@ -32,6 +32,29 @@ $xp_percent = max(0, min(100, ($xp / $xp_max) * 100));
             background: #f8f8f8;
             font-family: 'Segoe UI', Arial, sans-serif;
         }
+        .zurueck-btn {
+            position: fixed;
+            top: 24px;
+            right: 32px;
+            background: linear-gradient(90deg, #4286f4 40%, #63e6be 100%);
+            color: white;
+            padding: 10px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            border: none;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: background 0.2s;
+            z-index: 999;
+            display: inline-block;
+        }
+        .zurueck-btn:hover {
+            background: linear-gradient(90deg, #ff6b6b 10%, #b96bff 100%);
+            color: white;
+        }
         .profil-info {
             margin: 32px 0 0 32px;
             font-size: 1.2em;
@@ -79,7 +102,7 @@ $xp_percent = max(0, min(100, ($xp / $xp_max) * 100));
             z-index: 2;
             width: 100%;
             text-align: center;
-            color: #000; /* Schwarz */
+            color: #000;
             font-weight: bold;
             font-size: 1.08em;
             letter-spacing: 1px;
@@ -89,6 +112,7 @@ $xp_percent = max(0, min(100, ($xp / $xp_max) * 100));
     </style>
 </head>
 <body>
+    <a href="suchleiste.php" class="zurueck-btn">Zurück</a>
     <div class="profil-info">
         <div><strong>E-Mail:</strong> <?php echo htmlspecialchars($user_email); ?></div>
         <div><strong>Level:</strong> <?php echo $level; ?></div>
