@@ -427,13 +427,11 @@ if ($kategorie && $buchstabe) {
 </style>
 </head>
 <body>
-<a href="profil.php" style="text-decoration:none;">
-  <div class="user-info">
-      <span class="icon">
-          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Benutzericon">
-      </span>
-      <?php echo htmlspecialchars($user_email); ?>
-  </div>
+<a href="profil.php" class="user-info">
+    <span class="icon">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Benutzericon">
+    </span>
+    <?php echo htmlspecialchars($user_email); ?>
 </a>
 <a href="logout.php" class="logout-btn">Logout</a>
 <div class="fancy-header">Stadt-Land-Pro - Get on the Next Level</div>
