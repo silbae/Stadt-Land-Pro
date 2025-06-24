@@ -79,11 +79,11 @@ $xp_percent = max(0, min(100, ($xp / $xp_max) * 100));
             z-index: 2;
             width: 100%;
             text-align: center;
-            color: #fff;
+            color: #000; /* Schwarz */
             font-weight: bold;
             font-size: 1.08em;
             letter-spacing: 1px;
-            text-shadow: 0 1px 4px #0002;
+            text-shadow: 0 1px 4px #fff6;
             user-select: none;
         }
     </style>
