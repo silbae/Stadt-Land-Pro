@@ -448,13 +448,12 @@ if ($kategorie && $buchstabe) {
 </style>
 </head>
 <body>
-<a href="profil.php" class="profil-btn" style="text-decoration: none;">
+<a href="profil.php" class="user-info" style="text-decoration: none;">
     <span class="icon">
         <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Benutzericon">
     </span>
     <?php echo htmlspecialchars($user_email); ?>
 </a>
-    <a href="profil.php" class="profil-btn">Mein Profil</a>
 <a href="logout.php" class="logout-btn">Logout</a>
 <div class="fancy-header">Stadt-Land-Pro - Get on the Next Level</div>
 <div class="suchleisten-wrapper">
