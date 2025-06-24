@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['word']) && isset($_PO
         ':word' => $word,
         ':Kategorie' => $kategorie
     ]);
-    if ($checkStm->fetchColumn() > 0) {
+    if ($checkStm) {
         echo '<div class="error-message">Dieses Wort existiert in dieser Kategorie bereits!</div>';
     } else {
         $stm = "INSERT INTO Eintrag (Wort, Kategorie) VALUES (:word, :Kategorie)";
