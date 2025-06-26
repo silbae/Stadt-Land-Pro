@@ -37,7 +37,7 @@ if ($result['cnt'] > 0) {
     $db->insert("UPDATE Benutzer SET Xp = Xp + 12 WHERE Email = :email", [':email' => $user_email]);
 
     // 2. Aktuellen XP- und Level-Stand abfragen
-    $stmt = $db->insert("SELECT Xp, Level FROM Benutzer WHERE Email = :email", [':email' => $user_email]);
+    $stmt = $db->select("SELECT Xp, Level FROM Benutzer WHERE Email = :email", [':email' => $user_email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // 3. Level-Up prüfen und ggf. durchführen
