@@ -23,9 +23,23 @@ $treffer = [];
 if ($kategorie && $buchstabe) {
     $search = $buchstabe . '%';
     $query = $db->query("SELECT wort FROM Eintrag WHERE kategorie = '$kategorie' AND wort LIKE '$search'");
-    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-        $treffer[] = $row['wort'];
-    }
+   while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+    $wort = $row['wort'];
+
+    // Likes zählen
+    $stmtLikes = $db->query("SELECT COUNT(*) AS cnt FROM Likes WHERE Wort = ?", [$wort]);
+    $likeCount = $stmtLikes->fetch(PDO::FETCH_ASSOC)['cnt'] ?? 0;
+
+    // Hat der Nutzer schon geliked?
+    $stmtUserLiked = $db->query("SELECT id FROM Likes WHERE Wort = ? AND nutzer = ?", [$wort, $user_email]);
+    $userLiked = $stmtUserLiked->fetch() ? true : false;
+
+    $treffer[] = [
+        'wort' => $wort,
+        'likes' => $likeCount,
+        'userLiked' => $userLiked
+    ];
+}
 }
 ?>
 <!DOCTYPE html>
@@ -484,11 +498,15 @@ if ($kategorie && $buchstabe) {
         <?php if ($kategorie && $buchstabe): ?>
             <?php if (count($treffer) > 0): ?>
                 <strong>Gefundene Wörter:</strong><br>
-               <?php foreach ($treffer as $wort): ?>
-    <div class="ergebnis-zeile">
-        <?php echo htmlspecialchars($wort); ?>
-        <button class="herz-btn" type="button" title="Favorit">&#10084;</button>
-    </div>
+              <?php foreach ($treffer as $item): ?>
+<div class="ergebnis-zeile">
+    <?php echo htmlspecialchars($item['wort']); ?>
+    <button class="herz-btn<?php if ($item['userLiked']) echo ' active'; ?>"
+            type="button"
+            data-wort="<?php echo htmlspecialchars($item['wort']); ?>"
+            title="Gefällt mir">&#10084;</button>
+    <span class="like-count"><?php echo $item['likes']; ?></span>
+</div>
 <?php endforeach; ?>
             <?php else: ?>
                 <div class="hinweis">Keine Treffer gefunden.</div>
@@ -512,7 +530,19 @@ if ($kategorie && $buchstabe) {
 <script>
 document.querySelectorAll('.herz-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-        this.classList.toggle('active');
+        const wort = this.getAttribute('data-wort');
+        fetch('like.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'wort=' + encodeURIComponent(wort)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                this.classList.toggle('active');
+                this.nextElementSibling.textContent = data.likes;
+            }
+        });
     });
 });
 </script>
