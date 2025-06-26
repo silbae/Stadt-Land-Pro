@@ -1,24 +1,29 @@
-<?php //Damian: anderer Ansatz wie bewertet.php, auch unvollständig
+<?php
 require_once 'Connect.php';
 session_start();
+$user_email = $_SESSION['email'] ?? '';
+$wort = $_POST['wort'] ?? '';
+
+if (!$user_email || !$wort) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'likes' => 0]);
+    exit;
+}
 
 $db = new Connect();
 $db->connect();
 
-$wort = $_POST['wort'] ?? '';
-$user = $_SESSION['email'] ?? '';
-
-if ($wort) {
-    $stmt = $db->prepare("INSERT INTO Likes (wort, nutzer) VALUES (?, ?)");
-    $stmt->execute([$wort, $user]);
+// Prüfen, ob Like existiert
+$stmt = $db->query("SELECT id FROM Likes WHERE Wort = ? AND nutzer = ?", [$wort, $user_email]);
+if ($stmt->fetch()) {
+    // Like entfernen
+    $db->query("DELETE FROM Likes WHERE Wort = ? AND nutzer = ?", [$wort, $user_email]);
+} else {
+    // Like speichern
+    $db->query("INSERT INTO Likes (Wort, nutzer) VALUES (?, ?)", [$wort, $user_email]);
 }
 
-// Like-Zahl zurückgeben
-function getLikes($db, $wort) {
-    $sql = "SELECT COUNT(*) AS likes FROM Likes WHERE wort = ?";
-    $stmt = $db->prepare($sql);
-    $stmt->execute([$wort]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $row ? (int)$row['likes'] : 0;
-}
-echo getLikes($db, $wort);
+// Aktuelle Like-Anzahl zurückgeben
+$res = $db->query("SELECT COUNT(*) AS cnt FROM Likes WHERE Wort = ?", [$wort]);
+$row = $res->fetch(PDO::FETCH_ASSOC);
+echo json_encode(['success' => true, 'likes' => (int)$row['cnt']]);
