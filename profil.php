@@ -55,15 +55,15 @@ $xp_percent = max(0, min(100, ($xp / $xp_max) * 100));
             background: linear-gradient(90deg, #ff6b6b 10%, #b96bff 100%);
             color: white;
         }
-        .profil-info {
-            margin: 32px 0 0 32px;
-            font-size: 1.2em;
-            background: #fff;
-            border-radius: 12px;
-            padding: 24px 32px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-            max-width: 400px;
-        }
+.profil-info {
+    margin: 48px auto 0 auto;
+    font-size: 1.2em;
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px 32px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    max-width: 400px;
+}
         .profil-info strong {
             display: inline-block;
             min-width: 78px;
