@@ -23,9 +23,23 @@ $treffer = [];
 if ($kategorie && $buchstabe) {
     $search = $buchstabe . '%';
     $query = $db->query("SELECT wort FROM Eintrag WHERE kategorie = '$kategorie' AND wort LIKE '$search'");
-   while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
     $wort = $row['wort'];
 
+    $stmtLikes = $db->queryPrep("SELECT COUNT(*) AS cnt FROM Likes WHERE Wort = ?");
+    $stmtLikes->execute([$wort]);
+    $likeCount = $stmtLikes->fetch(PDO::FETCH_ASSOC)['cnt'] ?? 0;
+
+    $stmtUserLiked = $db->queryPrep("SELECT id FROM Likes WHERE Wort = ? AND nutzer = ?");
+    $stmtUserLiked->execute([$wort, $user_email]);
+    $userLiked = $stmtUserLiked->fetch() ? true : false;
+
+    $treffer[] = [
+        'wort' => $wort,
+        'likes' => $likeCount,
+        'userLiked' => $userLiked
+    ];
+}
     // Likes zählen
     $stmtLikes = $db->query("SELECT COUNT(*) AS cnt FROM Likes WHERE Wort = ?", [$wort]);
     $likeCount = $stmtLikes->fetch(PDO::FETCH_ASSOC)['cnt'] ?? 0;
