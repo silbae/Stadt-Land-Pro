@@ -30,25 +30,35 @@ if ($result['cnt'] > 0) {
         $stm = "INSERT INTO Eintrag (Wort, Kategorie) VALUES (:word, :Kategorie)";
         $db->insert($stm, [':word' => $word, ':Kategorie' => $kategorie]);
 
-        // XP und Level bearbeiten
-      if (isset($_SESSION['email'])) {
+// XP und Level bearbeiten
+if (isset($_SESSION['email'])) {
     $user_email = $_SESSION['email'];
     // 1. XP erhöhen
     $db->insert("UPDATE Benutzer SET Xp = Xp + 12 WHERE Email = :email", [':email' => $user_email]);
 
     // 2. Aktuellen XP- und Level-Stand abfragen
-    $stmt = $db->select("SELECT Xp, Level FROM Benutzer WHERE Email = :email", [':email' => $user_email]);
+    $stmt = $db->queryPrep("SELECT Xp, Level FROM Benutzer WHERE Email = :email");
+    $stmt->execute([':email' => $user_email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // 3. Level-Up prüfen und ggf. durchführen
+    $leveledUp = false;
     while ($user['Xp'] >= 100) {
         $user['Xp'] -= 100;
         $user['Level'] += 1;
-        $db->insert("UPDATE Benutzer SET Xp = :xp, Level = :level WHERE Email = :email", [
-            ':xp' => $user['Xp'],
-            ':level' => $user['Level'],
-            ':email' => $user_email
-        ]);
+        $leveledUp = true;
+        // Werte in der Datenbank aktualisieren
+        $db->insert(
+            "UPDATE Benutzer SET Xp = :xp, Level = :level WHERE Email = :email",
+            [
+                ':xp' => $user['Xp'],
+                ':level' => $user['Level'],
+                ':email' => $user_email
+            ]
+        );
+    }
+    if ($leveledUp) {
+        echo '<div class="success-message">Glückwunsch! Du bist jetzt Level ' . $user['Level'] . '!</div>';
     }
 }
 
