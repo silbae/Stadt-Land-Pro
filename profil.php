@@ -19,6 +19,36 @@ if ($user_email) {
 }
 
 $xp_percent = max(0, min(100, ($xp / $xp_max) * 100));
+// Standard-Icon (wie in Suchleiste.php)
+$icon_default = "images/profile_icons/icon1.png"; // Pfad ggf. anpassen!
+$icon_level3 = "https://cdn-icons-png.flaticon.com/128/3135/3135768.png";
+
+// Bisheriges Icon aus DB laden (falls gesetzt)
+$profil_icon = $icon_default;
+if ($user_email) {
+    $stmt = $db->query("SELECT ProfilIcon FROM Benutzer WHERE Email = '$user_email'");
+    if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if (!empty($row['ProfilIcon'])) {
+            $profil_icon = $row['ProfilIcon'];
+        }
+    }
+}
+
+// Auswahlmöglichkeiten je nach Level
+$available_icons = [$icon_default];
+if ($level >= 3) {
+    $available_icons[] = $icon_level3;
+}
+
+// Wenn Auswahl gespeichert wurde:
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profil_icon'])) {
+    $selected_icon = $_POST['profil_icon'];
+    if (in_array($selected_icon, $available_icons)) {
+        $stmt = $db->prepare("UPDATE Benutzer SET ProfilIcon = :icon WHERE Email = :email");
+        $stmt->execute(['icon' => $selected_icon, 'email' => $user_email]);
+        $profil_icon = $selected_icon;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -113,6 +143,21 @@ $xp_percent = max(0, min(100, ($xp / $xp_max) * 100));
 </head>
 <body>
     <a href="suchleiste.php" class="zurueck-btn">Zurück</a>
+    <div style="text-align:center; margin-top:16px;">
+    <img src="<?php echo htmlspecialchars($profil_icon); ?>" alt="Profilicon" style="width:80px; height:80px; border-radius:50%; border:2px solid #4286f4;">
+</div>
+<?php if ($user_email): ?>
+<form method="post" style="margin-top:16px; text-align:center;">
+    <?php foreach ($available_icons as $icon): ?>
+        <label style="margin:0 10px;">
+            <input type="radio" name="profil_icon" value="<?php echo htmlspecialchars($icon); ?>" <?php if ($profil_icon === $icon) echo 'checked'; ?>>
+            <img src="<?php echo htmlspecialchars($icon); ?>" style="width:48px; height:48px; border-radius:50%; border:2px solid #ccc;">
+        </label>
+    <?php endforeach; ?>
+    <br>
+    <button type="submit" class="zurueck-btn" style="position:static; margin-top:10px;">Icon auswählen</button>
+</form>
+<?php endif; ?>
     <div class="profil-info">
         <div><strong>E-Mail:</strong> <?php echo htmlspecialchars($user_email); ?></div>
         <div><strong>Level:</strong> <?php echo $level; ?></div>
