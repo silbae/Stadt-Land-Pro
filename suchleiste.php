@@ -26,12 +26,14 @@ if ($kategorie && $buchstabe) {
     }
 }
 
+print_r($treffer); // Debug-Ausgabe der Treffer
+
 // Bewertungszahlen holen (sicheres prepare/execute)
 $bewertetCounts = [];
 if (count($treffer) > 0) {
     $placeholders = implode(',', array_fill(0, count($treffer), '?'));
     $sql = "SELECT wort, bewertet FROM bewertet WHERE wort IN ($placeholders)";
-    $stmt = $db->select($sql, $treffer);
+    $stmt = $db->query($sql);
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $bewertetCounts[$row['wort']] = $row['bewertet'];
     }
