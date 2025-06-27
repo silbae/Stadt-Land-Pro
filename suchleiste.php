@@ -54,7 +54,6 @@ while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
         'userLiked' => $userLiked
     ];
 }
-}
 ?>
 <!DOCTYPE html>
 <html lang="de">
