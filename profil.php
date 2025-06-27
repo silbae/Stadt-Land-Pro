@@ -19,14 +19,18 @@ if ($user_email) {
 }
 
 $xp_percent = max(0, min(100, ($xp / $xp_max) * 100));
-// Standard-Icon (wie in Suchleiste.php)
-$icon_default = "images/profile_icons/icon1.png"; // Pfad ggf. anpassen!
-$icon_level3 = "https://cdn-icons-png.flaticon.com/128/3135/3135768.png";
+// === PROFILICON SETUP ===
+$icon_default = "https://cdn-icons-png.flaticon.com/128/5393/5393061.png"; // Neuer Standard
+$icon_level3  = "https://cdn-icons-png.flaticon.com/128/3135/3135768.png"; // Level 3 (alt)
+$icon_level5  = "https://cdn-icons-png.flaticon.com/128/4793/4793069.png";
+$icon_level8  = "https://i.etsystatic.com/22360457/r/il/640aa2/2247217699/il_570xN.2247217699_hxi5.jpg";
+$icon_level10 = "https://cdn-icons-png.flaticon.com/128/2210/2210034.png";
 
-// Bisheriges Icon aus DB laden (falls gesetzt)
+// ProfilIcon aus DB laden
 $profil_icon = $icon_default;
 if ($user_email) {
-    $stmt = $db->query("SELECT ProfilIcon FROM Benutzer WHERE Email = '$user_email'");
+    $stmt = $db->queryPrep("SELECT ProfilIcon FROM Benutzer WHERE Email = :email");
+    $stmt->execute([':email' => $user_email]);
     if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         if (!empty($row['ProfilIcon'])) {
             $profil_icon = $row['ProfilIcon'];
@@ -34,18 +38,19 @@ if ($user_email) {
     }
 }
 
-// Auswahlmöglichkeiten je nach Level
+// Verfügbare Icons je nach Level
 $available_icons = [$icon_default];
-if ($level >= 3) {
-    $available_icons[] = $icon_level3;
-}
+if ($level >= 3)  $available_icons[] = $icon_level3;
+if ($level >= 5)  $available_icons[] = $icon_level5;
+if ($level >= 8)  $available_icons[] = $icon_level8;
+if ($level >= 10) $available_icons[] = $icon_level10;
 
-// Wenn Auswahl gespeichert wurde:
+// Wenn ein Icon ausgewählt wurde, speichern
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profil_icon'])) {
     $selected_icon = $_POST['profil_icon'];
     if (in_array($selected_icon, $available_icons)) {
-$stmt = $db->queryPrep("UPDATE Benutzer SET ProfilIcon = :icon WHERE Email = :email");
-$stmt->execute([':icon' => $selected_icon, ':email' => $user_email]);
+        $stmt = $db->queryPrep("UPDATE Benutzer SET ProfilIcon = :icon WHERE Email = :email");
+        $stmt->execute([':icon' => $selected_icon, ':email' => $user_email]);
         $profil_icon = $selected_icon;
     }
 }
