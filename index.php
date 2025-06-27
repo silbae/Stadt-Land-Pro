@@ -1,5 +1,26 @@
-<?php 
+<?php //Silas
 session_start();
+
+// Cookie-Hinweis anzeigen, falls noch nicht akzeptiert
+if (!isset($_COOKIE['cookie_accepted'])) {
+    echo '
+    <div id="cookie-popup" style="position:fixed;bottom:0;left:0;width:100%;background:#222;color:#fff;padding:20px;text-align:center;z-index:9999;">
+        <span>Diese Website verwendet Cookies, um Ihr Erlebnis zu verbessern. Durch die Nutzung dieser Seite stimmen Sie der Verwendung von Cookies zu.</span>
+        <button onclick="acceptCookies()" style="margin-left:20px;padding:8px 20px;background:#28a745;color:#fff;border:none;border-radius:3px;cursor:pointer;">Akzeptieren</button>
+    </div>
+    <script>
+        function acceptCookies() {
+            document.cookie = "cookie_accepted=true; path=/; max-age=" + (60*60*24*365) + ";";
+            document.getElementById("cookie-popup").style.display = "none";
+            location.reload();
+        }
+    </script>
+    ';
+    // Abbrechen, damit Login/Registrierung erst nach Annahme der Cookies möglich ist
+    exit();
+}
+
+// ...Dein bisheriger Code folgt hier...
 if (!isset($_SESSION['user_id'])) {
     // Auswahlseite: Login oder Registrierung
     echo '

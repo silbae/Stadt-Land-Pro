@@ -1,36 +1,47 @@
-<?php 
+<?php //Silas
+// Binde die Datei ein, die die Datenbankverbindung verwaltet
 require_once("Connect.php");
+
+// Starte die Session, um Benutzerdaten zu speichern
 session_start();
+
+// Erstelle ein neues Verbindungsobjekt und stelle die Verbindung her
 $conn = new Connect(); 
 $conn->connect();
 
-if(isset($_POST['login'])) {
-    $email = $_POST['email'];
-    $passwort = $_POST['passwort'];
+if(isset($_POST['login'])) { // Prüfe, ob das Login-Formular abgeschickt wurde
+    $email = $_POST['email']; // Hole die eingegebene E-Mail
+    $passwort = $_POST['passwort']; // Hole das eingegebene Passwort
 
-    // Holt den Benutzer anhand der E-Mail-Adresse
+    // Hole den Benutzer anhand der E-Mail-Adresse aus der Datenbank
     $user = $conn->select(
         "SELECT * FROM Benutzer WHERE Email = :email",
         array('email' => $email)
     );
 
-    // Prüfe, ob ein Nutzer gefunden wurde und das Passwort stimmt
+    // Prüfe, ob ein Nutzer gefunden wurde und das Passwort korrekt ist
     if ($user && isset($user['Passwort']) && password_verify($passwort, $user['Passwort'])) {
+        // Setze Session-Variablen für den eingeloggten Benutzer
         $_SESSION['userid'] = $user['Email'];
         $_SESSION['email'] = $user['Email'];
+        // Weiterleitung zur Startseite nach erfolgreichem Login
         header("Location: suchleiste.php");
         exit();
     } else {
+        // Fehlermeldung bei ungültigen Login-Daten
         $errorMessage = "E-Mail oder Passwort war ungültig<br>";
     }
+    // Schließe die Datenbankverbindung
     $conn->disconnect();
 }
 ?>
+
 <!DOCTYPE html> 
 <html> 
 <head>
   <title>Login</title>    
   <style>
+    /* Styling für das Login-Formular */
     body {
       margin: 0;
       padding: 0;
@@ -86,10 +97,12 @@ if(isset($_POST['login'])) {
   <div class="login-box">
     <h2>Login</h2>
     <?php 
+    // Zeige eine Fehlermeldung an, falls vorhanden
     if(isset($errorMessage)) {
         echo '<div class="error-message">'.$errorMessage.'</div>';
     }
     ?>
+    <!-- Login-Formular -->
     <form action="" method="post">
       <input type="hidden" name="login" value="1">
       <input class="login-input" type="email" maxlength="250" name="email" placeholder="E-Mail" required><br>
