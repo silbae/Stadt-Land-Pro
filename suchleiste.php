@@ -22,38 +22,23 @@ $buchstabe = isset($_GET['buchstabe']) ? strtoupper($_GET['buchstabe']) : '';
 $treffer = [];
 if ($kategorie && $buchstabe) {
     $search = $buchstabe . '%';
-    $query = $db->query("SELECT wort FROM Eintrag WHERE kategorie = '$kategorie' AND wort LIKE '$search'");
-while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-    $wort = $row['wort'];
+    $query = $db->query("SELECT wort FROM Eintrag WHERE kategorie = '$kategorie' AND wort LIKE '$search'%");
+    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+        $wort = $row['wort'];
 
-    $stmtLikes = $db->queryPrep("SELECT COUNT(*) AS cnt FROM Likes WHERE Wort = ?");
-    $stmtLikes->execute([$wort]);
-    $likeCount = $stmtLikes->fetch(PDO::FETCH_ASSOC)['cnt'] ?? 0;
+        $stmtLikes = $db->select("SELECT COUNT(*) AS cnt FROM Likes WHERE Wort = ?", [$wort]);
+        $likeCount = $stmtLikes['cnt'] ?? 0;
 
-    $stmtUserLiked = $db->queryPrep("SELECT id FROM Likes WHERE Wort = ? AND nutzer = ?");
-    $stmtUserLiked->execute([$wort, $user_email]);
-    $userLiked = $stmtUserLiked->fetch() ? true : false;
+       // Hat der Nutzer schon geliked?
+        $stmtUserLiked = $db->select("SELECT id FROM Likes WHERE Wort = ? AND nutzer = ?", [$wort, $user_email]);
+        $userLiked = $stmtUserLiked ? true : false;
 
-    $treffer[] = [
-        'wort' => $wort,
-        'likes' => $likeCount,
-        'userLiked' => $userLiked
-    ];
-}
-    // Likes zählen
-   $stmtLikes = $db->queryPrep("SELECT COUNT(*) AS cnt FROM Likes WHERE Wort = ?");
-$stmtLikes->execute([$wort]);
-    $likeCount = $stmtLikes->fetch(PDO::FETCH_ASSOC)['cnt'] ?? 0;
-
-    // Hat der Nutzer schon geliked?
-    $stmtUserLiked = $db->select("SELECT id FROM Likes WHERE Wort = ? AND nutzer = ?", [$wort, $user_email]);
-    $userLiked = $stmtUserLiked ? true : false;
-
-    $treffer[] = [
-        'wort' => $wort,
-        'likes' => $likeCount,
-        'userLiked' => $userLiked
-    ];
+        $treffer[] = [
+            'wort' => $wort,
+            'likes' => $likeCount,
+            'userLiked' => $userLiked
+        ];
+    }
 }
 ?>
 <!DOCTYPE html>
