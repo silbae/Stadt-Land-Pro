@@ -22,7 +22,7 @@ $buchstabe = isset($_GET['buchstabe']) ? strtoupper($_GET['buchstabe']) : '';
 $treffer = [];
 if ($kategorie && $buchstabe) {
     $search = $buchstabe . '%';
-    $query = $db->query("SELECT wort FROM Eintrag WHERE kategorie = '$kategorie' AND wort LIKE '$search'%");
+    $query = $db->query("SELECT wort FROM Eintrag WHERE kategorie = '$kategorie' AND wort LIKE '$search'");
     while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
         $wort = $row['wort'];
 
