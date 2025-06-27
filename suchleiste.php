@@ -17,6 +17,19 @@ if (isset($_SESSION['email'])) {
     }
 }
 
+$user_level = null;
+if (isset($_SESSION['email'])) {
+    $stmt = $db->queryPrep("SELECT ProfilIcon, Level FROM Benutzer WHERE Email = :email");
+    $stmt->execute([':email' => $_SESSION['email']]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!empty($row['ProfilIcon'])) {
+        $profil_icon = $row['ProfilIcon'];
+    }
+    if (isset($row['Level'])) {
+        $user_level = $row['Level'];
+    }
+}
+
 // Kategorien aus der Datenbank holen
 $kategorien = [];
 $sql = "SELECT DISTINCT TRIM(LOWER(kategorie)) AS kategorie FROM Eintrag ORDER BY kategorie ASC";
@@ -473,9 +486,12 @@ if ($kategorie && $buchstabe) {
 <body>
 <a href="profil.php" class="user-info" style="text-decoration: none;">
 <span class="icon">
-    <img src="<?php echo htmlspecialchars($profil_icon); ?>" alt="Benutzericon" style="width:42px; height:42px; border-radius:50%; object-fit:cover;">
+    <img src="<?php echo htmlspecialchars($profil_icon); ?>" style="width:42px; height:42px; border-radius:50%; object-fit:cover;">
 </span>
 <?php echo htmlspecialchars($user_email); ?>
+<?php if ($user_level !== null): ?>
+    <span style="margin-left:8px; font-weight:bold; color:#4286f4;">Level <?php echo (int)$user_level; ?></span>
+<?php endif; ?>
 </a>
 <a href="logout.php" class="logout-btn">Logout</a>
 <div class="fancy-header">Stadt-Land-Pro - Get on the Next Level</div>
