@@ -17,12 +17,12 @@ $db->connect();
 $stmt = $db->select("SELECT id FROM Likes WHERE Wort = ? AND nutzer = ?", [$wort, $user_email]);
 if ($stmt) {
     // Like entfernen
-    $db->queryPrep("DELETE FROM Likes WHERE Wort = ? AND nutzer = ?");
-    $db->execute([$wort, $user_email]);
+    $stmt = $db->queryPrep("DELETE FROM Likes WHERE Wort = ? AND nutzer = ?");
+    $stmt->execute([$wort, $user_email]);
 } else {
     // Like speichern
-    $db->queryPrep("INSERT INTO Likes (Wort, nutzer) VALUES (?, ?)");
-    $db->execute([$wort, $user_email]);
+    $stmt = $db->queryPrep("INSERT INTO Likes (Wort, nutzer) VALUES (?, ?)");
+    $stmt->execute([$wort, $user_email]);
 }
 
 // Aktuelle Like-Anzahl zurückgeben
