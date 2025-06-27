@@ -14,16 +14,17 @@ $db = new Connect();
 $db->connect();
 
 // Prüfen, ob Like existiert
-$stmt = $db->query("SELECT id FROM Likes WHERE Wort = ? AND nutzer = ?", [$wort, $user_email]);
-if ($stmt->fetch()) {
+$stmt = $db->select("SELECT id FROM Likes WHERE Wort = ? AND nutzer = ?", [$wort, $user_email]);
+if ($stmt) {
     // Like entfernen
-    $db->query("DELETE FROM Likes WHERE Wort = ? AND nutzer = ?", [$wort, $user_email]);
+    $db->queryPrep("DELETE FROM Likes WHERE Wort = ? AND nutzer = ?", [$wort, $user_email]);
+    $db->execute();
 } else {
     // Like speichern
-    $db->query("INSERT INTO Likes (Wort, nutzer) VALUES (?, ?)", [$wort, $user_email]);
+    $db->queryPrep("INSERT INTO Likes (Wort, nutzer) VALUES (?, ?)", [$wort, $user_email]);
+    $db->execute();
 }
 
 // Aktuelle Like-Anzahl zurückgeben
-$res = $db->query("SELECT COUNT(*) AS cnt FROM Likes WHERE Wort = ?", [$wort]);
-$row = $res->fetch(PDO::FETCH_ASSOC);
+$row = $db->select("SELECT COUNT(*) AS cnt FROM Likes WHERE Wort = ?", [$wort]);
 echo json_encode(['success' => true, 'likes' => (int)$row['cnt']]);
