@@ -536,7 +536,10 @@ document.querySelectorAll('.herz-btn').forEach(btn => {
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: 'wort=' + encodeURIComponent(wort)
         })
-        .then(res => console.log('Response:', res))
+        .then(res => {
+            if (!res.ok) throw new Error('Network response was not ok');
+            return res.json();
+        })
         .then(data => {
             if(data.success) {
                 this.classList.toggle('active');
