@@ -26,6 +26,7 @@ $icon_level5  = "https://cdn-icons-png.flaticon.com/128/4793/4793069.png";
 $icon_level8  = "https://i.etsystatic.com/22360457/r/il/640aa2/2247217699/il_570xN.2247217699_hxi5.jpg";
 $icon_level10 = "https://cdn-icons-png.flaticon.com/128/2210/2210034.png";
 $icon_level15 = "https://static.thenounproject.com/png/182951-200.png";
+$icon_level20 = "https://cdn-icons-png.flaticon.com/512/8354/8354127.png";
 
 // ProfilIcon aus DB laden
 $profil_icon = $icon_default;
@@ -46,6 +47,7 @@ if ($level >= 5)  $available_icons[] = $icon_level5;
 if ($level >= 8)  $available_icons[] = $icon_level8;
 if ($level >= 10) $available_icons[] = $icon_level10;
 if ($level >= 15) $available_icons[] = $icon_level15;
+if ($level >= 20) $available_icons[] = $icon_level20;
 
 // Wenn ein Icon ausgewählt wurde, speichern
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profil_icon'])) {
