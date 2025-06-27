@@ -7,6 +7,16 @@ $user_email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
 $db = new Connect();
 $db->connect();
 
+$profil_icon = "https://cdn-icons-png.flaticon.com/128/5393/5393061.png"; // Fallback-Standardicon
+if (isset($_SESSION['email'])) {
+    $stmt = $db->queryPrep("SELECT ProfilIcon FROM Benutzer WHERE Email = :email");
+    $stmt->execute([':email' => $_SESSION['email']]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!empty($row['ProfilIcon'])) {
+        $profil_icon = $row['ProfilIcon'];
+    }
+}
+
 // Kategorien aus der Datenbank holen
 $kategorien = [];
 $sql = "SELECT DISTINCT TRIM(LOWER(kategorie)) AS kategorie FROM Eintrag ORDER BY kategorie ASC";
@@ -462,10 +472,10 @@ if ($kategorie && $buchstabe) {
 </head>
 <body>
 <a href="profil.php" class="user-info" style="text-decoration: none;">
-    <span class="icon">
-        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Benutzericon">
-    </span>
-    <?php echo htmlspecialchars($user_email); ?>
+<span class="icon">
+    <img src="<?php echo htmlspecialchars($profil_icon); ?>" alt="Benutzericon" style="width:42px; height:42px; border-radius:50%; object-fit:cover;">
+</span>
+<?php echo htmlspecialchars($user_email); ?>
 </a>
 <a href="logout.php" class="logout-btn">Logout</a>
 <div class="fancy-header">Stadt-Land-Pro - Get on the Next Level</div>
