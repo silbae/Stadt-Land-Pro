@@ -46,8 +46,8 @@ $stmtLikes->execute([$wort]);
     $likeCount = $stmtLikes->fetch(PDO::FETCH_ASSOC)['cnt'] ?? 0;
 
     // Hat der Nutzer schon geliked?
-    $stmtUserLiked = $db->query("SELECT id FROM Likes WHERE Wort = ? AND nutzer = ?", [$wort, $user_email]);
-    $userLiked = $stmtUserLiked->fetch() ? true : false;
+    $stmtUserLiked = $db->select("SELECT id FROM Likes WHERE Wort = ? AND nutzer = ?", [$wort, $user_email]);
+    $userLiked = $stmtUserLiked ? true : false;
 
     $treffer[] = [
         'wort' => $wort,
