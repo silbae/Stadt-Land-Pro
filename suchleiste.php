@@ -530,12 +530,13 @@ if ($kategorie && $buchstabe) {
 document.querySelectorAll('.herz-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         const wort = this.getAttribute('data-wort');
+        console.log('Wort:', wort);
         fetch('like.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: 'wort=' + encodeURIComponent(wort)
         })
-        .then(res => res.json())
+        .then(res => console.log('Response:', res))
         .then(data => {
             if(data.success) {
                 this.classList.toggle('active');
