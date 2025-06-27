@@ -44,8 +44,8 @@ if ($level >= 3) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['profil_icon'])) {
     $selected_icon = $_POST['profil_icon'];
     if (in_array($selected_icon, $available_icons)) {
-        $stmt = $db->prepare("UPDATE Benutzer SET ProfilIcon = :icon WHERE Email = :email");
-        $stmt->execute(['icon' => $selected_icon, 'email' => $user_email]);
+$stmt = $db->queryPrep("UPDATE Benutzer SET ProfilIcon = :icon WHERE Email = :email");
+$stmt->execute([':icon' => $selected_icon, ':email' => $user_email]);
         $profil_icon = $selected_icon;
     }
 }
