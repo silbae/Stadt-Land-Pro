@@ -41,7 +41,8 @@ while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
     ];
 }
     // Likes zählen
-    $stmtLikes = $db->query("SELECT COUNT(*) AS cnt FROM Likes WHERE Wort = ?", [$wort]);
+   $stmtLikes = $db->queryPrep("SELECT COUNT(*) AS cnt FROM Likes WHERE Wort = ?");
+$stmtLikes->execute([$wort]);
     $likeCount = $stmtLikes->fetch(PDO::FETCH_ASSOC)['cnt'] ?? 0;
 
     // Hat der Nutzer schon geliked?
